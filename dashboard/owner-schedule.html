@@ -18,7 +18,8 @@
   <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
@@ -27,7 +28,9 @@
         <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
           <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
         </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto">
@@ -42,20 +45,87 @@
   </nav>
   <!-- ===== END NAVBAR ===== -->
 
-  <main class="container py-5">
-    <h1 class="section-title">Schedule</h1>
-    <p class="lead">Weekly opening hours and blocked dates.</p>
+  <main class="container-fluid py-4 px-lg-4">
+    <div class="row g-4">
+      <aside class="col-lg-3">
+        <div class="panel dash-sidebar">
+          <p class="dash-role mb-2">Owner panel</p>
+          <ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link" href="owner.html"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="owner-fields.html"><i class="bi bi-grid-3x3-gap"></i>My fields</a></li>
+            <li class="nav-item"><a class="nav-link active" href="owner-schedule.html"><i class="bi bi-calendar-week"></i>Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" href="owner-requests.html"><i class="bi bi-inbox"></i>Requests &amp; coupons</a></li>
+            <li class="nav-item"><a class="nav-link" href="../booking/messages.html"><i class="bi bi-chat-dots"></i>Messages</a></li>
+          </ul>
+        </div>
+      </aside>
 
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Suhayib</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Weekly table: each day open from / to</li>
-          <li>Slot length select (60 / 90 min)</li>
-          <li>Blocked dates list + add blocked date</li>
-          <li>Weekly bookings calendar view</li>
-      </ul>
+      <div class="col-lg-9">
+        <h1 class="section-title">Schedule</h1>
+        <div id="formAlert"></div>
+
+        <div class="panel mb-4">
+          <div class="row g-3 align-items-end">
+            <div class="col-md-6">
+              <label for="fieldSelect" class="form-label">Field</label>
+              <select class="form-select" id="fieldSelect"></select>
+            </div>
+            <div class="col-md-6">
+              <label for="slotMinutes" class="form-label">Slot length</label>
+              <select class="form-select" id="slotMinutes">
+                <option value="60">60 minutes</option>
+                <option value="90">90 minutes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+          <div class="col-xl-7">
+            <form class="panel h-100" id="hoursForm" novalidate>
+              <h2 class="h5 mb-3">Opening hours</h2>
+              <div class="table-responsive">
+                <table class="table align-middle mb-3">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Open</th>
+                      <th>Close</th>
+                      <th>Closed</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hoursRows"></tbody>
+                </table>
+              </div>
+              <button type="submit" class="btn btn-main">Save schedule</button>
+            </form>
+          </div>
+
+          <div class="col-xl-5">
+            <div class="panel h-100">
+              <h2 class="h5 mb-3">Blocked dates</h2>
+              <form class="input-group mb-3" id="blockForm" novalidate>
+                <input type="date" class="form-control" id="blockDate" required>
+                <button type="submit" class="btn btn-outline-main">Add</button>
+              </form>
+              <ul class="list-group" id="blockedList"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <button type="button" class="btn btn-outline-main btn-sm" id="prevWeek">
+              <i class="bi bi-chevron-left"></i>
+            </button>
+            <h2 class="h6 mb-0" id="weekTitle">This week</h2>
+            <button type="button" class="btn btn-outline-main btn-sm" id="nextWeek">
+              <i class="bi bi-chevron-right"></i>
+            </button>
+          </div>
+          <div class="week-grid" id="weekGrid"></div>
+        </div>
+      </div>
     </div>
   </main>
 

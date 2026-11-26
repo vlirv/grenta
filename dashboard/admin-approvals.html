@@ -18,7 +18,8 @@
   <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
@@ -27,7 +28,9 @@
         <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
           <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
         </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto">
@@ -42,19 +45,47 @@
   </nav>
   <!-- ===== END NAVBAR ===== -->
 
-  <main class="container py-5">
-    <h1 class="section-title">Approvals</h1>
-    <p class="lead">Approve new owners and fields.</p>
+  <main class="container-fluid py-4 px-lg-4">
+    <div class="row g-4">
+      <aside class="col-lg-3">
+        <div class="panel dash-sidebar">
+          <p class="dash-role mb-2">Admin panel</p>
+          <ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link" href="admin.html"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link active" href="admin-approvals.html"><i class="bi bi-patch-check"></i>Approvals</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-users.html"><i class="bi bi-people"></i>Users &amp; owners</a></li>
+            <li class="nav-item"><a class="nav-link" href="../fields/support.html"><i class="bi bi-headset"></i>Support tickets</a></li>
+          </ul>
+        </div>
+      </aside>
 
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Suhayib</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Pending owners / fields table</li>
-          <li>Review page part with acceptance checklist (document checked, photos ok, address ok)</li>
-          <li>Approve / Reject buttons</li>
-      </ul>
+      <div class="col-lg-9">
+        <h1 class="section-title">Approvals</h1>
+        <div id="formAlert"></div>
+
+        <div class="row g-4">
+          <div class="col-xl-5">
+            <div class="panel mb-4">
+              <h2 class="h5 mb-3">
+                Owners waiting <span class="badge bg-warning text-dark" id="countOwners">0</span>
+              </h2>
+              <div class="list-group" id="ownerList"></div>
+            </div>
+            <div class="panel">
+              <h2 class="h5 mb-3">
+                Fields waiting <span class="badge bg-warning text-dark" id="countFields">0</span>
+              </h2>
+              <div class="list-group" id="fieldList"></div>
+            </div>
+          </div>
+
+          <div class="col-xl-7">
+            <div class="panel" id="reviewPanel">
+              <p class="text-muted-site mb-0">Choose an owner or a field on the left to review it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 

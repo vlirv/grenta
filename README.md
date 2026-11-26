@@ -106,6 +106,14 @@ If you need to change anything in `assets/` or the navbar/footer, tell Mouen fir
 
 ---
 
+## AI prompts for each member
+
+`docs/ai-prompts/` has a PDF (and a .txt for easy copying) for each person with a prompt to paste
+into your AI, so everyone's AI follows the same rules, design and data formats:
+`Mouen-AI-prompt.pdf`, `Wael-AI-prompt.pdf`, `Musab-AI-prompt.pdf`, `Suhayib-AI-prompt.pdf`.
+
+---
+
 ## How to join and work together — طريقة الانضمام والعمل
 
 ### 1. Get access (one time)

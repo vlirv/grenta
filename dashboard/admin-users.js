@@ -1,110 +1,273 @@
 /* =========================================================
-   admin.js — admin dashboard (Suhayib)
-   Platform stats, bookings-per-day bar chart (plain CSS),
-   latest bookings.
+   admin-users.js — manage players, owners, fields, reviews
+   and platform coupons (Suhayib)
+   Suspended users cannot log in (checked in login.js).
    ========================================================= */
 document.addEventListener("DOMContentLoaded", function () {
   const admin = Malaab.requireLogin(["admin"]);
   if (!admin) return;
 
   const esc = Malaab.escapeHtml;
-  const users = Malaab.load("users");
-  const fields = Malaab.load("fields");
-  const bookings = Malaab.load("bookings");
+  const head = document.getElementById("tableHead");
+  const body = document.getElementById("tableBody");
+  const search = document.getElementById("search");
 
-  function dateString(d) {
-    return (
-      d.getFullYear() +
-      "-" +
-      String(d.getMonth() + 1).padStart(2, "0") +
-      "-" +
-      String(d.getDate()).padStart(2, "0")
-    );
-  }
+  let tab = "players";
 
-  const today = dateString(new Date());
-
-  document.getElementById("statPlayers").textContent = users.filter(function (u) {
-    return u.role === "player";
-  }).length;
-
-  document.getElementById("statOwners").textContent = users.filter(function (u) {
-    return u.role === "owner" && u.status === "active";
-  }).length;
-
-  document.getElementById("statFields").textContent = fields.filter(function (f) {
-    return !f.status || f.status === "active";
-  }).length;
-
-  document.getElementById("statToday").textContent = bookings.filter(function (b) {
-    return b.date === today;
-  }).length;
-
-  document.getElementById("statApprovals").textContent =
-    users.filter(function (u) { return u.role === "owner" && u.status === "pending"; }).length +
-    fields.filter(function (f) { return f.status === "pending"; }).length;
-
-  // ===== Chart: bookings made per day (the day the player booked) for the last 7 days =====
-  const days = [];
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setHours(0, 0, 0, 0);
-    d.setDate(d.getDate() - i);
-    const ds = dateString(d);
-
-    days.push({
-      label: d.toLocaleDateString("en-US", { weekday: "short" }),
-      count: bookings.filter(function (b) {
-        return (b.createdAt ? b.createdAt.slice(0, 10) : b.date) === ds;
-      }).length
-    });
-  }
-
-  const max = Math.max(1, Math.max.apply(null, days.map(function (d) { return d.count; })));
-  const bars = document.getElementById("chartBars");
-
-  bars.innerHTML = days.map(function (d) {
-    return (
-      '<div class="bar-col">' +
-        '<span class="bar-value">' + d.count + "</span>" +
-        '<div class="bar" data-height="' + Math.round((d.count / max) * 100) + '"></div>' +
-      "</div>"
-    );
-  }).join("");
-
-  document.getElementById("chartLabels").innerHTML = days.map(function (d) {
-    return "<span>" + d.label + "</span>";
-  }).join("");
-
-  // Grow the bars (heights set from JS, not inline HTML)
-  requestAnimationFrame(function () {
-    bars.querySelectorAll(".bar").forEach(function (bar) {
-      bar.style.height = bar.dataset.height + "%";
-    });
-  });
-
-  // ===== Latest bookings =====
-  const STATUS = {
+  const BADGE = {
+    active: "status-confirmed",
     pending: "status-pending",
-    confirmed: "status-confirmed",
-    completed: "status-confirmed",
     rejected: "status-cancelled",
-    cancelled: "status-cancelled"
+    suspended: "status-cancelled"
   };
 
-  document.getElementById("latestRows").innerHTML = bookings
-    .slice()
-    .sort(function (a, b) { return b.id - a.id; })
-    .slice(0, 5)
-    .map(function (b) {
-      const f = fields.find(function (x) { return x.id === b.fieldId; });
-      return (
-        "<tr>" +
-          '<td><a href="../booking/receipt.html?id=' + b.id + '">#' + b.id + "</a></td>" +
-          "<td>" + esc(f ? f.name : "-") + "</td>" +
-          "<td>" + esc(b.date) + "</td>" +
-          '<td><span class="status ' + (STATUS[b.status] || "") + '">' + esc(b.status) + "</span></td>" +
-        "</tr>"
+  function badge(status) {
+    const s = status || "active";
+    return '<span class="status ' + (BADGE[s] || "") + '">' + esc(s) + "</span>";
+  }
+
+  function toggleBtn(kind, id, status) {
+    const suspended = status === "suspended";
+    return (
+      '<button type="button" class="btn btn-sm ' +
+        (suspended ? "btn-main" : "btn-outline-danger") +
+        '" data-kind="' + kind +
+        '" data-id="' + id +
+        '" data-action="' + (suspended ? "active" : "suspended") + '">' +
+        (suspended ? "Reactivate" : "Suspend") +
+      "</button>"
+    );
+  }
+
+  function matches(text) {
+    return (text || "").toLowerCase().includes(search.value.trim().toLowerCase());
+  }
+
+  function render() {
+    const users = Malaab.load("users");
+    const fields = Malaab.load("fields");
+    let cols = [];
+    let rows = [];
+
+    if (tab === "players" || tab === "owners") {
+      const role = tab === "players" ? "player" : "owner";
+      cols = ["Name", "Email", "Phone", "City", "Status", ""];
+      rows = users
+        .filter(function (u) {
+          return u.role === role && matches(u.name + " " + u.email + " " + u.phone);
+        })
+        .map(function (u) {
+          return (
+            "<tr>" +
+              "<td>" + esc(u.name) + "</td>" +
+              "<td>" + esc(u.email) + "</td>" +
+              "<td>" + esc(u.phone) + "</td>" +
+              "<td>" + esc(u.city) + "</td>" +
+              "<td>" + badge(u.status) + "</td>" +
+              '<td class="text-end">' +
+                (u.status === "pending"
+                  ? '<a href="admin-approvals.html">Review</a>'
+                  : toggleBtn("user", u.id, u.status)) +
+              "</td>" +
+            "</tr>"
+          );
+        });
+    }
+
+    if (tab === "fields") {
+      cols = ["Field", "City", "Owner", "Price", "Status", ""];
+      rows = fields
+        .filter(function (f) {
+          return matches(f.name + " " + f.city + " " + f.area);
+        })
+        .map(function (f) {
+          const o = users.find(function (u) { return u.id === f.ownerId; });
+          return (
+            "<tr>" +
+              "<td>" + esc(f.name) + "</td>" +
+              "<td>" + esc(f.city) + "</td>" +
+              "<td>" + esc(o ? o.name : "-") + "</td>" +
+              "<td>" + Malaab.formatPrice(f.price) + "</td>" +
+              "<td>" + badge(f.status) + "</td>" +
+              '<td class="text-end">' +
+                (f.status === "pending"
+                  ? '<a href="admin-approvals.html">Review</a>'
+                  : toggleBtn("field", f.id, f.status)) +
+              "</td>" +
+            "</tr>"
+          );
+        });
+    }
+
+    if (tab === "reviews") {
+      cols = ["Field", "Player", "Stars", "Comment", ""];
+      rows = (Malaab.load("reviews") || [])
+        .filter(function (r) {
+          return matches(r.comment);
+        })
+        .map(function (r) {
+          const f = fields.find(function (x) { return x.id === r.fieldId; });
+          const u = users.find(function (x) { return x.id === r.userId; });
+          return (
+            "<tr" + (r.hidden ? ' class="opacity-50"' : "") + ">" +
+              "<td>" + esc(f ? f.name : "-") + "</td>" +
+              "<td>" + esc(u ? u.name : "-") + "</td>" +
+              "<td>" + esc(String(r.stars)) + " ★</td>" +
+              "<td>" + esc(r.comment) + "</td>" +
+              '<td class="text-end">' +
+                '<button type="button" class="btn btn-sm btn-outline-main" data-review="' + r.id + '">' +
+                  (r.hidden ? "Show" : "Hide") +
+                "</button>" +
+              "</td>" +
+            "</tr>"
+          );
+        });
+    }
+
+    if (tab === "coupons") {
+      cols = ["Code", "Discount", "Field", "Expires", "Used", ""];
+      rows = Malaab.load("coupons")
+        .filter(function (c) {
+          return matches(c.code);
+        })
+        .map(function (c) {
+          const f = fields.find(function (x) { return x.id === c.fieldId; });
+          return (
+            "<tr>" +
+              "<td><strong>" + esc(c.code) + "</strong></td>" +
+              "<td>" + (c.type === "percent" ? esc(String(c.value)) + "%" : Malaab.formatPrice(c.value)) + "</td>" +
+              "<td>" + esc(f ? f.name : "All fields") + "</td>" +
+              "<td>" + esc(c.expires) + "</td>" +
+              "<td>" + esc(String(c.used || 0)) + "</td>" +
+              '<td class="text-end">' +
+                '<button type="button" class="btn btn-sm btn-outline-danger" data-coupon="' + esc(c.code) + '">' +
+                  '<i class="bi bi-trash"></i>' +
+                "</button>" +
+              "</td>" +
+            "</tr>"
+          );
+        });
+    }
+
+    head.innerHTML = "<tr>" + cols.map(function (c) { return "<th>" + c + "</th>"; }).join("") + "</tr>";
+    body.innerHTML = rows.join("") ||
+      '<tr><td colspan="' + cols.length + '" class="text-muted-site">Nothing found.</td></tr>';
+  }
+
+  // Tabs and search
+  document.getElementById("tabs").addEventListener("click", function (e) {
+    const link = e.target.closest("[data-tab]");
+    if (!link) return;
+    e.preventDefault();
+    this.querySelectorAll(".nav-link").forEach(function (a) { a.classList.remove("active"); });
+    link.classList.add("active");
+    tab = link.dataset.tab;
+    search.value = "";
+    render();
+  });
+
+  search.addEventListener("input", render);
+
+  // Table buttons
+  body.addEventListener("click", function (e) {
+    const statusBtn = e.target.closest("[data-action]");
+    const reviewBtn = e.target.closest("[data-review]");
+    const couponBtn = e.target.closest("[data-coupon]");
+
+    if (statusBtn) {
+      const key = statusBtn.dataset.kind === "user" ? "users" : "fields";
+      const list = Malaab.load(key);
+      const item = list.find(function (x) { return x.id === Number(statusBtn.dataset.id); });
+      if (!item || item.role === "admin") return; // never suspend an admin
+      const action = statusBtn.dataset.action;
+      if (!confirm((action === "suspended" ? "Suspend " : "Reactivate ") + item.name + "?")) return;
+      item.status = action;
+      Malaab.save(key, list);
+      Malaab.showAlert(
+        "#formAlert",
+        item.name + (action === "suspended" ? " is suspended." : " is active again."),
+        "success"
       );
-    }).join("") || '<tr><td colspan="4" class="text-muted-site">No bookings yet.</td></tr>';
+    }
+
+    if (reviewBtn) {
+      const reviews = Malaab.load("reviews") || [];
+      const r = reviews.find(function (x) { return x.id === Number(reviewBtn.dataset.review); });
+      if (r) {
+        r.hidden = !r.hidden;
+        Malaab.save("reviews", reviews);
+      }
+    }
+
+    if (couponBtn && confirm("Delete coupon " + couponBtn.dataset.coupon + "?")) {
+      Malaab.save("coupons", Malaab.load("coupons").filter(function (c) {
+        return c.code !== couponBtn.dataset.coupon;
+      }));
+    }
+
+    render();
+  });
+
+  // Add owner
+  const ownerForm = document.getElementById("ownerForm");
+  ownerForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!Malaab.validate(ownerForm)) return;
+
+    const users = Malaab.load("users");
+    const email = document.getElementById("oEmail").value.trim().toLowerCase();
+    if (users.some(function (u) { return u.email.toLowerCase() === email; })) {
+      Malaab.showAlert("#ownerAlert", "This email is already used.", "warning");
+      return;
+    }
+
+    users.push({
+      id: Malaab.nextId(users),
+      name: document.getElementById("oName").value.trim(),
+      email: email,
+      phone: document.getElementById("oPhone").value.trim(),
+      city: "",
+      password: document.getElementById("oPassword").value,
+      role: "owner",
+      status: "active"
+    });
+
+    Malaab.save("users", users);
+    ownerForm.reset();
+    ownerForm.classList.remove("was-validated");
+    Malaab.showAlert("#ownerAlert", "Owner added. They can log in now.", "success");
+    render();
+  });
+
+  // Add platform coupon (for all fields)
+  const couponForm = document.getElementById("couponForm");
+  document.getElementById("cExpires").min = new Date().toISOString().slice(0, 10);
+
+  couponForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!Malaab.validate(couponForm)) return;
+
+    const coupons = Malaab.load("coupons");
+    const code = document.getElementById("cCode").value.trim().toUpperCase();
+    if (coupons.some(function (c) { return c.code === code; })) {
+      Malaab.showAlert("#couponAlert", "This code already exists.", "warning");
+      return;
+    }
+
+    coupons.push({
+      code: code,
+      type: document.getElementById("cType").value,
+      value: Number(document.getElementById("cValue").value),
+      expires: document.getElementById("cExpires").value,
+      used: 0
+    });
+
+    Malaab.save("coupons", coupons);
+    couponForm.reset();
+    couponForm.classList.remove("was-validated");
+    Malaab.showAlert("#couponAlert", "Coupon " + code + " added.", "success");
+    render();
+  });
+
+  render();
 });

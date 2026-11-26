@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users & owners | Malaab</title>
+  <title>Users &amp; owners | Malaab</title>
   <!-- Owner: Suhayib -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -18,7 +18,8 @@
   <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
@@ -27,7 +28,9 @@
         <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
           <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
         </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto">
@@ -42,20 +45,100 @@
   </nav>
   <!-- ===== END NAVBAR ===== -->
 
-  <main class="container py-5">
-    <h1 class="section-title">Users & owners</h1>
-    <p class="lead">Manage users, owners and fields.</p>
+  <main class="container-fluid py-4 px-lg-4">
+    <div class="row g-4">
+      <aside class="col-lg-3">
+        <div class="panel dash-sidebar">
+          <p class="dash-role mb-2">Admin panel</p>
+          <ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link" href="admin.html"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-approvals.html"><i class="bi bi-patch-check"></i>Approvals</a></li>
+            <li class="nav-item"><a class="nav-link active" href="admin-users.html"><i class="bi bi-people"></i>Users &amp; owners</a></li>
+            <li class="nav-item"><a class="nav-link" href="../fields/support.html"><i class="bi bi-headset"></i>Support tickets</a></li>
+          </ul>
+        </div>
+      </aside>
 
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Suhayib</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Tabs: users / owners / fields</li>
-          <li>Tables with status badge and Suspend / Reactivate buttons</li>
-          <li>&ldquo;Add owner&rdquo; form</li>
-          <li>Reviews moderation list (hide review)</li>
-      </ul>
+      <div class="col-lg-9">
+        <h1 class="section-title">Users &amp; owners</h1>
+        <div id="formAlert"></div>
+
+        <div class="d-flex flex-wrap gap-2 justify-content-between align-items-center mb-3">
+          <ul class="nav nav-pills" id="tabs">
+            <li class="nav-item"><a class="nav-link active" href="#" data-tab="players">Players</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-tab="owners">Owners</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-tab="fields">Fields</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-tab="reviews">Reviews</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-tab="coupons">Coupons</a></li>
+          </ul>
+          <input type="search" class="form-control w-auto" id="search" placeholder="Search…">
+        </div>
+
+        <div class="panel table-responsive mb-4">
+          <table class="table align-middle mb-0">
+            <thead id="tableHead"></thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-xl-6">
+            <form class="panel" id="ownerForm" novalidate>
+              <h2 class="h5 mb-3"><i class="bi bi-person-plus"></i> Add owner</h2>
+              <div id="ownerAlert"></div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="oName" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="oName" minlength="3" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="oPhone" class="form-label">Phone</label>
+                  <input type="tel" class="form-control" id="oPhone" pattern="09[1-5][0-9]{7}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="oEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="oEmail" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="oPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="oPassword" minlength="6" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-main mt-3">Add owner</button>
+            </form>
+          </div>
+
+          <div class="col-xl-6">
+            <form class="panel" id="couponForm" novalidate>
+              <h2 class="h5 mb-3"><i class="bi bi-tag"></i> Add platform coupon</h2>
+              <div id="couponAlert"></div>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="cCode" class="form-label">Code</label>
+                  <input type="text" class="form-control text-uppercase" id="cCode"
+                      pattern="[A-Za-z0-9]{4,15}" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cType" class="form-label">Type</label>
+                  <select class="form-select" id="cType">
+                    <option value="percent">Percent %</option>
+                    <option value="fixed">Fixed LYD</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label for="cValue" class="form-label">Value</label>
+                  <input type="number" class="form-control" id="cValue" min="1" max="100" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cExpires" class="form-label">Expires</label>
+                  <input type="date" class="form-control" id="cExpires" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-main mt-3">Add coupon</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "pending");
   }).sort(function (a, b) { return a.time.localeCompare(b.time); }); const income = bookings.filter(function
     (b) {
-      return (b.status === "confirmed" || b.status === "completed") && b.date >= weekAgo && b.date <= today;
+    return (b.status === "confirmed" || b.status === "completed") && b.date >= weekAgo && b.date <= today;
   }).reduce(function (sum, b) { return sum + (b.paid || 0); }, 0); const rated = myFields.filter(function (f) {
     return
     f.rating;

@@ -18,7 +18,8 @@
   <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
@@ -27,7 +28,9 @@
         <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
           <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
         </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto">
@@ -42,19 +45,100 @@
   </nav>
   <!-- ===== END NAVBAR ===== -->
 
-  <main class="container py-5">
-    <h1 class="section-title">Admin dashboard</h1>
-    <p class="lead">Platform overview for the admin.</p>
+  <main class="container-fluid py-4 px-lg-4">
+    <div class="row g-4">
+      <aside class="col-lg-3">
+        <div class="panel dash-sidebar">
+          <p class="dash-role mb-2">Admin panel</p>
+          <ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link active" href="admin.html"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-approvals.html"><i class="bi bi-patch-check"></i>Approvals</a></li>
+            <li class="nav-item"><a class="nav-link" href="admin-users.html"><i class="bi bi-people"></i>Users &amp; owners</a></li>
+            <li class="nav-item"><a class="nav-link" href="../fields/support.html"><i class="bi bi-headset"></i>Support tickets</a></li>
+          </ul>
+        </div>
+      </aside>
 
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Suhayib</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Side menu: Dashboard, Approvals, Owners, Fields, Users, Coupons, Reviews</li>
-          <li>Stat cards: users, owners, fields, bookings today</li>
-          <li>Bookings-by-day chart (image or simple bars)</li>
-      </ul>
+      <div class="col-lg-9">
+        <h1 class="section-title">Admin dashboard</h1>
+
+        <div class="row g-3 mb-4">
+          <div class="col-sm-6 col-xl">
+            <div class="panel stat-card">
+              <div class="stat-icon"><i class="bi bi-person"></i></div>
+              <div>
+                <div class="stat-number" id="statPlayers">0</div>
+                <div class="stat-label">Players</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl">
+            <div class="panel stat-card">
+              <div class="stat-icon"><i class="bi bi-house-gear"></i></div>
+              <div>
+                <div class="stat-number" id="statOwners">0</div>
+                <div class="stat-label">Owners</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl">
+            <div class="panel stat-card">
+              <div class="stat-icon"><i class="bi bi-grid-3x3-gap"></i></div>
+              <div>
+                <div class="stat-number" id="statFields">0</div>
+                <div class="stat-label">Active fields</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl">
+            <div class="panel stat-card">
+              <div class="stat-icon"><i class="bi bi-calendar-day"></i></div>
+              <div>
+                <div class="stat-number" id="statToday">0</div>
+                <div class="stat-label">Bookings today</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl">
+            <a href="admin-approvals.html" class="panel stat-card text-reset text-decoration-none">
+              <div class="stat-icon"><i class="bi bi-patch-check"></i></div>
+              <div>
+                <div class="stat-number" id="statApprovals">0</div>
+                <div class="stat-label">Waiting approval</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-xl-7">
+            <div class="panel h-100">
+              <h2 class="h5 mb-0">Bookings per day</h2>
+              <p class="text-muted-site small">Bookings made in the last 7 days</p>
+              <div class="chart-bars" id="chartBars"></div>
+              <div class="chart-labels mt-2" id="chartLabels"></div>
+            </div>
+          </div>
+          <div class="col-xl-5">
+            <div class="panel h-100">
+              <h2 class="h5 mb-3">Latest bookings</h2>
+              <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Field</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="latestRows"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 

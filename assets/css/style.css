@@ -1,0 +1,151 @@
+/* =========================================================
+   style.css — SHARED styles used by every page (Mouen)
+   Colors, fonts, buttons, cards, forms, footer.
+   Please don't change these variables without telling the team.
+   ========================================================= */
+
+:root {
+  --color-primary: #1b7f3b;      /* pitch green */
+  --color-primary-dark: #125a2a;
+  --color-accent: #f5b301;       /* yellow (cards / highlights) */
+  --color-bg: #f4f8f5;
+  --color-surface: #ffffff;
+  --color-text: #1f2a24;
+  --color-muted: #6b7a71;
+  --color-available: #2e7d32;
+  --color-booked: #c62828;
+  --color-pending: #ef8f00;
+
+  --font-main: "Cairo", "Segoe UI", Tahoma, sans-serif;
+  --radius: 12px;
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+}
+
+.section-title {
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.text-muted-site {
+  color: var(--color-muted);
+}
+
+/* ---------- Buttons ---------- */
+.btn-main {
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.55rem 1.4rem;
+  font-weight: 600;
+}
+
+.btn-main:hover,
+.btn-main:focus {
+  background-color: var(--color-primary-dark);
+  color: #fff;
+}
+
+.btn-outline-main {
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: var(--radius);
+  font-weight: 600;
+}
+
+.btn-outline-main:hover {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* ---------- Cards / panels ---------- */
+.panel {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.field-card {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.field-card:hover {
+  transform: translateY(-4px);
+}
+
+.field-card img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.price-tag {
+  color: var(--color-primary);
+  font-weight: 700;
+}
+
+/* ---------- Status badges (use everywhere) ---------- */
+.status {
+  display: inline-block;
+  padding: 0.15rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+.status-available, .status-confirmed { background: var(--color-available); }
+.status-booked, .status-cancelled   { background: var(--color-booked); }
+.status-pending                     { background: var(--color-pending); }
+
+/* ---------- Forms ---------- */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(27, 127, 59, 0.2);
+}
+
+/* ---------- "Under construction" box (delete when your page is done) ---------- */
+.todo-box {
+  border: 2px dashed var(--color-accent);
+  background: #fffaf0;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background-color: var(--color-primary-dark);
+  color: #dcefe2;
+  padding: 2rem 0 1rem;
+  margin-top: 3rem;
+}
+
+.site-footer a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}

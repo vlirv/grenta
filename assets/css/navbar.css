@@ -1,0 +1,50 @@
+/* =========================================================
+   navbar.css — navigation bar styling (Mouen)
+   ========================================================= */
+
+.site-navbar {
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+
+.site-navbar .navbar-brand {
+  color: var(--color-primary);
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.site-navbar .nav-link {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.site-navbar .nav-link:hover,
+.site-navbar .nav-link.active {
+  color: var(--color-primary);
+}
+
+/* Icon buttons: search, notifications, login */
+.nav-icon {
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  padding: 0.25rem 0.5rem;
+  text-decoration: none;
+}
+
+.nav-icon:hover {
+  color: var(--color-accent);
+}
+
+/* Unread count on the bell */
+.nav-badge {
+  position: absolute;
+  top: -2px;
+  right: 0;
+  background: var(--color-booked);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 0 0.35rem;
+  line-height: 1.2rem;
+}

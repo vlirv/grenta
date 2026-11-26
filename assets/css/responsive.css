@@ -1,0 +1,29 @@
+/* =========================================================
+   responsive.css — mobile / tablet adjustments (Mouen)
+   ========================================================= */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .field-card img {
+    height: 160px;
+  }
+
+  .hero {
+    padding: 3rem 1rem;
+  }
+
+  .site-footer {
+    text-align: center;
+  }
+}
+
+@media (max-width: 991px) {
+  /* Collapsed navbar: center the links under the brand */
+  .site-navbar .navbar-nav {
+    text-align: center;
+    padding-top: 0.5rem;
+  }
+}

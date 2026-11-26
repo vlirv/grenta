@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home | Malaab</title>
+  <!-- Owner: Mouen -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/navbar.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+  <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a class="navbar-brand mx-auto mx-lg-0" href="index.html"><i class="bi bi-dribbble"></i> Malaab</a>
+      <div class="d-flex order-lg-last align-items-center">
+        <a class="nav-icon" href="fields/search.html" title="Search fields"><i class="bi bi-search"></i></a>
+        <a class="nav-icon position-relative" href="account/notifications.html" title="Notifications">
+          <i class="bi bi-bell"></i><span class="nav-badge">3</span>
+        </a>
+        <a class="nav-icon" href="account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+      </div>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="fields/search.html">Fields</a></li>
+          <li class="nav-item"><a class="nav-link" href="booking/my-bookings.html">My Bookings</a></li>
+          <li class="nav-item"><a class="nav-link" href="fields/support.html">Support</a></li>
+          <li class="nav-item"><a class="nav-link" href="account/contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- ===== END NAVBAR ===== -->
+
+  <main>
+    <!-- Hero + search -->
+    <section class="hero text-center">
+      <div class="container">
+        <h1>Book your football field in seconds</h1>
+        <p class="lead mb-4">Find a field near you, see free time slots and book &mdash; Tripoli, Benghazi, Misrata and more.</p>
+        <form class="hero-search mx-auto" action="fields/search.html" method="get">
+          <div class="row g-2">
+            <div class="col-md-5">
+              <input type="text" class="form-control" name="q" placeholder="Field name or area">
+            </div>
+            <div class="col-md-4">
+              <input type="date" class="form-control" name="date" aria-label="Date">
+            </div>
+            <div class="col-md-3 d-grid">
+              <button type="submit" class="btn btn-accent"><i class="bi bi-search"></i> Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="container py-5">
+      <!-- How it works -->
+      <section class="mb-5">
+        <h2 class="section-title text-center">How it works</h2>
+        <div class="row g-4 text-center">
+          <div class="col-md-4">
+            <div class="step-card h-100">
+              <i class="bi bi-search"></i>
+              <h5 class="mt-2">1. Find a field</h5>
+              <p class="mb-0 text-muted-site">Search by name, area or on the map.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="step-card h-100">
+              <i class="bi bi-calendar-check"></i>
+              <h5 class="mt-2">2. Pick a time</h5>
+              <p class="mb-0 text-muted-site">See open slots and choose the hour that suits your team.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="step-card h-100">
+              <i class="bi bi-credit-card"></i>
+              <h5 class="mt-2">3. Pay &amp; play</h5>
+              <p class="mb-0 text-muted-site">Pay a deposit, the full price, or at the field.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Featured fields -->
+      <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h2 class="section-title mb-0">Popular fields</h2>
+          <a href="fields/search.html" class="btn btn-outline-main btn-sm">See all fields</a>
+        </div>
+        <div class="row g-4">
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Andalus Arena">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Andalus Arena</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Tripoli – Hay Al Andalus</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">120 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Green Star">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Green Star</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Tripoli – Souq Al Juma</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">100 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Benghazi 5-a-side">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Benghazi 5-a-side</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Benghazi – Al Fuwayhat</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">90 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Misrata Stadium Mini">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Misrata Stadium Mini</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Misrata – Center</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">110 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Seaside Pitch">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Seaside Pitch</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Tripoli – Gargaresh</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">130 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="card field-card h-100">
+            <img src="assets/images/placeholder.svg" class="card-img-top" alt="Zawiya Sports Club">
+            <div class="card-body">
+              <h5 class="card-title mb-1">Zawiya Sports Club</h5>
+              <p class="text-muted-site small mb-2"><i class="bi bi-geo-alt"></i> Zawiya – Center</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="price-tag">80 LYD / hour</span>
+                <a href="fields/field.html" class="btn btn-main btn-sm">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+
+      <!-- Numbers -->
+      <section class="stats-band mb-5">
+        <div class="row text-center g-3">
+          <div class="col-6 col-md-3"><strong>40+</strong><span>Fields</span></div>
+          <div class="col-6 col-md-3"><strong>6</strong><span>Cities</span></div>
+          <div class="col-6 col-md-3"><strong>2,000+</strong><span>Bookings</span></div>
+          <div class="col-6 col-md-3"><strong>4.7 <i class="bi bi-star-fill"></i></strong><span>Average rating</span></div>
+        </div>
+      </section>
+
+      <!-- Owners CTA -->
+      <section class="owner-cta panel d-md-flex justify-content-between align-items-center">
+        <div>
+          <h2 class="h4 mb-1">Do you own a football field?</h2>
+          <p class="mb-md-0 text-muted-site">List it on Malaab, publish your time slots and receive bookings online.</p>
+        </div>
+        <a href="account/register-owner.html" class="btn btn-main">List your field</a>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== FOOTER (shared — same on every page, owned by Mouen) ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <h5><i class="bi bi-dribbble"></i> Malaab</h5>
+          <p class="mb-0">Book your football field in Libya in a few clicks.</p>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Links</h5>
+          <a href="fields/search.html">Fields</a> &middot;
+          <a href="booking/my-bookings.html">My Bookings</a> &middot;
+          <a href="fields/support.html">Support</a> &middot;
+          <a href="account/contact.html">Contact</a>
+          <br>
+          <a href="account/login.html">Login</a> &middot;
+          <a href="account/register.html">Register</a> &middot;
+          <a href="account/register-owner.html">List your field</a>
+          <br>
+          <a href="dashboard/owner.html">Owner panel</a> &middot;
+          <a href="dashboard/admin.html">Admin panel</a>
+        </div>
+        <div class="col-md-4 mb-3">
+          <h5>Contact</h5>
+          <p class="mb-1"><i class="bi bi-telephone"></i> +218 91 000 0000</p>
+          <p class="mb-0"><i class="bi bi-envelope"></i> info@malaab.ly</p>
+        </div>
+      </div>
+      <p class="text-center small mt-3 mb-0">&copy; 2026 Malaab</p>
+    </div>
+  </footer>
+  <!-- ===== END FOOTER ===== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

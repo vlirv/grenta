@@ -1,5 +1,134 @@
+
 /* =========================================================
-   fields.css — search, field details, reviews, support (Wael)
-   Use the shared variables from assets/css/style.css,
-   e.g. var(--color-primary), var(--radius), var(--shadow).
-   ========================================================= */
+fields.css — search, field details, reviews, support (Wael)
+Uses the shared variables from assets/css/style.css
+========================================================= */
+/* ---------- Stars ---------- */
+.stars {
+color: var(--color-accent);
+white-space: nowrap;
+}
+/* ---------- Search ---------- */
+.result-count {
+color: var(--color-muted);
+font-weight: 600;
+}
+.field-card .card-body {
+display: flex;
+flex-direction: column;
+}
+.field-meta {
+color: var(--color-muted);
+font-size: 0.9rem;
+}
+.distance {
+color: var(--color-primary);
+font-weight: 600;
+font-size: 0.85rem;
+}
+.map-box iframe {
+width: 100%;
+height: 320px;
+border: 0;
+border-radius: var(--radius);
+}
+@media (min-width: 992px) {
+.map-box {
+position: sticky;
+top: 90px;
+}
+}
+.empty-state {
+text-align: center;
+color: var(--color-muted);
+padding: 2.5rem 1rem;
+}
+.empty-state i {
+font-size: 2.5rem;
+color: var(--color-primary);
+}
+/* ---------- Field details ---------- */
+.field-gallery img {
+height: 360px;
+object-fit: cover;
+border-radius: var(--radius);
+}
+.facility {
+display: inline-flex;
+align-items: center;
+gap: 0.4rem;
+background: #eef7f1;
+color: var(--color-primary-dark);
+border-radius: 999px;
+padding: 0.3rem 0.9rem;
+margin: 0 0.4rem 0.4rem 0;
+font-weight: 600;
+}
+.book-box {
+  border-top: 5px solid var(--color-primary);
+}
+.book-box .big-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+/* ---------- Reviews ---------- */
+.rating-big {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+}
+.rating-bar {
+  height: 0.6rem;
+  background: #e6ece8;
+}
+.rating-bar .progress-bar {
+  background: var(--color-accent);
+}
+.review-item {
+  border-bottom: 1px solid #e6ece8;
+  padding: 1rem 0;
+}
+.review-item:last-child {
+  border-bottom: none;
+}
+.star-picker button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: #c9d3cd;
+  padding: 0 0.15rem;
+}
+.star-picker button.on {
+  color: var(--color-accent);
+}
+/* ---------- Support / tickets ---------- */
+.ticket-row {
+  cursor: pointer;
+}
+.chat-box {
+  max-height: 460px;
+  overflow-y: auto;
+  padding: 1rem;
+  background: #f8fbf9;
+  border-radius: var(--radius);
+}
+.chat-bubble {
+  max-width: 80%;
+  padding: 0.6rem 0.9rem;
+  border-radius: var(--radius);
+  margin-bottom: 0.75rem;
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+}
+.chat-bubble.mine {
+  margin-left: auto;
+  background: var(--color-primary);
+  color: #fff;
+}
+.chat-bubble small {
+  display: block;
+  opacity: 0.75;
+  font-size: 0.75rem;
+}

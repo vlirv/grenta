@@ -1,5 +1,183 @@
-/* =========================================================
-   dashboard.css — owner panel and admin panel (Suhayib)
-   Use the shared variables from assets/css/style.css,
-   e.g. var(--color-primary), var(--radius), var(--shadow).
-   ========================================================= */
+/* ========================================================= dashboard.css — owner panel and admin panel (Suhayib) Uses the shared variables from assets/css/style.css ========================================================= */
+/* ---------- Sidebar ---------- */
+.dash-sidebar .nav-link {
+   color: var(--color-text);
+   font-weight: 600;
+   border-radius: var(--radius);
+   padding: 0.6rem 0.9rem;
+   white-space: nowrap;
+}
+
+.dash-sidebar .nav-link i {
+   margin-inline-end: 0.5rem;
+   color: var(--color-primary);
+}
+
+.dash-sidebar .nav-link:hover {
+   background: #eef7f1;
+}
+
+.dash-sidebar .nav-link.active {
+   background: var(--color-primary);
+   color: #fff;
+}
+
+.dash-sidebar .nav-link.active i {
+   color: #fff;
+}
+
+.dash-role {
+   font-size: 0.8rem;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+   color: var(--color-muted);
+}
+
+/* Phones / tablets: sidebar becomes a scrolling menu on top */
+@media (max-width: 991px) {
+   .dash-sidebar .nav {
+      flex-direction: row !important;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+   }
+}
+
+/* ---------- Stat cards ---------- */
+.stat-card {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+   height: 100%;
+}
+
+.stat-card .stat-icon {
+   width: 52px;
+   height: 52px;
+   flex: 0 0 52px;
+   border-radius: 50%;
+   background: #eef7f1;
+   color: var(--color-primary);
+   font-size: 1.5rem;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.stat-card .stat-number {
+   font-size: 1.6rem;
+   font-weight: 800;
+   line-height: 1.1;
+}
+
+.stat-card .stat-label {
+   color: var(--color-muted);
+   font-size: 0.9rem;
+}
+
+/* ---------- Bar chart (admin) ---------- */
+.chart-bars {
+   display: flex;
+   align-items: flex-end;
+   gap: 0.75rem;
+   height: 220px;
+   padding-top: 1.5rem;
+   border-bottom: 2px solid #e6ece8;
+}
+
+.chart-bars .bar-col {
+   flex: 1;
+   height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-end;
+   align-items: center;
+}
+
+.chart-bars .bar {
+   width: 100%;
+   max-width: 48px;
+   min-height: 4px;
+   background: var(--color-primary);
+   border-radius: 8px 8px 0 0;
+   transition: height 0.6s;
+}
+
+.chart-bars .bar-value {
+   font-weight: 700;
+   font-size: 0.85rem;
+}
+
+.chart-labels {
+   display: flex;
+   gap: 0.75rem;
+}
+
+.chart-labels span {
+   flex: 1;
+   text-align: center;
+   font-size: 0.8rem;
+   color: var(--color-muted);
+}
+
+/* ---------- Forms / lists ---------- */
+.photo-preview img {
+   width: 90px;
+   height: 64px;
+   object-fit: cover;
+   border-radius: 8px;
+   margin: 0 0.4rem 0.4rem 0;
+}
+
+.checklist .form-check {
+   padding: 0.6rem 0.6rem 0.6rem 2.2rem;
+   border: 1px solid #e6ece8;
+   border-radius: var(--radius);
+   margin-bottom: 0.5rem;
+}
+
+.approval-item {
+   cursor: pointer;
+}
+
+.approval-item.active {
+   background: #eef7f1;
+}
+
+/* ---------- Week calendar (owner schedule) ---------- */
+.week-grid {
+   display: grid;
+   grid-template-columns: repeat(7, minmax(110px, 1fr));
+   gap: 0.5rem;
+   overflow-x: auto;
+}
+
+.week-day {
+   background: #f8fbf9;
+   border-radius: var(--radius);
+   padding: 0.5rem;
+   min-height: 140px;
+}
+
+.week-day h3 {
+   font-size: 0.85rem;
+   font-weight: 700;
+   text-align: center;
+   margin-bottom: 0.5rem;
+}
+
+.week-day.today {
+   outline: 2px solid var(--color-primary);
+}
+
+.week-booking {
+   background: var(--color-primary);
+   color: #fff;
+   border-radius: 8px;
+   padding: 0.25rem 0.4rem;
+   font-size: 0.75rem;
+   margin-bottom: 0.3rem;
+}
+
+.week-booking.pending {
+   background: var(--color-pending);
+}

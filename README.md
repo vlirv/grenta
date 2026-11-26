@@ -13,6 +13,9 @@ grenta/
 │   ├── css/navbar.css         Navbar
 │   ├── css/responsive.css     Mobile / desktop
 │   ├── css/home.css           Home page
+│   ├── js/data.js             Demo data: users, fields, bookings, coupons, notifications
+│   ├── js/main.js             Shared helpers (Malaab.load/save, login, alerts …)
+│   ├── js/home.js             Home page JS
 │   └── images/                Put ALL photos here (everyone)
 │
 ├── account/                   👤 MOUEN – accounts & core
@@ -51,6 +54,11 @@ grenta/
     └── dashboard.css
 ```
 
+**Every page has its own JS file** with the same name, in the same folder
+(`login.html` → `login.js`, `booking.html` → `booking.js`). Each page loads
+`data.js` + `main.js` first, then its own file. The yellow **TODO** list at the top of each
+partner's JS file says what to build.
+
 **Links inside a folder:** CSS is `../assets/css/style.css`, images are `../assets/images/x.jpg`,
 another page in the same folder is just `page.html`, a page in another folder is `../booking/booking.html`.
 
@@ -58,14 +66,39 @@ Every page already has the shared **navbar** and **footer** and the right CSS li
 Pages that still need work show a yellow **"Under construction"** box with the list of what to build.
 Replace the box with your content.
 
+## JavaScript — how data works
+
+There is no server. `assets/js/data.js` holds the demo data, and changes are saved in the
+browser's `localStorage` through the shared helpers in `main.js`:
+
+```js
+const fields = Malaab.load("fields");          // read
+fields.push(newField);
+Malaab.save("fields", fields);                 // save
+
+const user = Malaab.currentUser();             // logged-in user or null
+Malaab.requireLogin(["owner"]);                // protect a page (owner / admin / player)
+Malaab.showAlert("#formAlert", "Saved!", "success");
+Malaab.validate(form);                         // Bootstrap validation, true if OK
+Malaab.go("booking/receipt.html?id=1001");     // path from the project root
+```
+
+Demo accounts (password `123456`): player `user@demo.ly`, owner `owner@demo.ly`, admin `admin@demo.ly`.
+To reset the demo data: open the browser console and run `localStorage.clear()`.
+
+**Already working (Mouen):** login with role check and redirect, sign-up (password match, unique
+email), owner sign-up (saved as *pending* for the admin approvals page), profile edit + change
+password + logout, page protection, notifications (filters, mark as read, delete, bell count),
+contact form with counter, home search check and animated numbers.
+
 ## Task distribution — توزيع المهام
 
 | # | Member | Folder | Responsibility |
 |---|---|---|---|
-| 1 | **Mouen** (team lead) | `account/`, `assets/`, `index.html` | Repo, shared CSS, navbar/footer, home, login, register, owner register, profile, notifications, contact, responsive, GitHub Pages ✅ **done** |
-| 2 | **Wael** | `fields/` | Search + filters + map, field details, reviews, FAQ & support tickets |
-| 3 | **Musab** | `booking/` | Slot calendar, checkout with coupon & payment (demo), receipt + print, my bookings, messages |
-| 4 | **Suhayib** | `dashboard/` | Owner panel (fields, schedule, requests, coupons) and admin panel (stats, approvals, users, reviews) |
+| 1 | **Mouen** (team lead) | `account/`, `assets/`, `index.html` | Repo, shared CSS + shared JS, navbar/footer, home, login, register, owner register, profile, notifications, contact, responsive, GitHub Pages ✅ **done** |
+| 2 | **Wael** | `fields/` | Search + filters + map, field details, reviews, FAQ & support tickets (HTML + CSS + JS) |
+| 3 | **Musab** | `booking/` | Slot calendar, checkout with coupon & payment (demo), 10-min countdown, receipt + print, my bookings, messages (HTML + CSS + JS) |
+| 4 | **Suhayib** | `dashboard/` | Owner panel (fields, schedule, requests, coupons) and admin panel (stats, approvals, users, reviews) (HTML + CSS + JS) |
 
 **Rule:** work only inside your own folder. Use the shared classes from `style.css`
 (`btn-main`, `btn-outline-main`, `panel`, `field-card`, `price-tag`, `status status-confirmed / -pending / -booked / -cancelled`).
@@ -101,7 +134,8 @@ git push origin main          # 3. upload your work
 - Always `git pull` **before** you start.
 - Commit small and often, with clear messages.
 - Image names: lowercase, no spaces (e.g. `andalus-arena.jpg`).
-- Preview: open the `.html` file in your browser, or use VS Code **Live Server**.
+- Preview: use VS Code **Live Server** (recommended), or open the `.html` file in your browser.
+- Open the browser console (F12) to see JS errors and the starter `console.log` output.
 
 ## Publishing (Mouen, at the end)
 **Settings → Pages → Source: Deploy from a branch → `main` / root → Save.**

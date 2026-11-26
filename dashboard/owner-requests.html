@@ -18,7 +18,8 @@
   <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
   <nav class="navbar navbar-expand-lg site-navbar sticky-top">
     <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
@@ -27,7 +28,9 @@
         <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
           <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
         </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
+        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login">
+          <i class="bi bi-person-circle"></i>
+        </a>
       </div>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav mx-auto">
@@ -42,19 +45,128 @@
   </nav>
   <!-- ===== END NAVBAR ===== -->
 
-  <main class="container py-5">
-    <h1 class="section-title">Booking requests</h1>
-    <p class="lead">Accept or reject booking requests.</p>
+  <main class="container-fluid py-4 px-lg-4">
+    <div class="row g-4">
+      <aside class="col-lg-3">
+        <div class="panel dash-sidebar">
+          <p class="dash-role mb-2">Owner panel</p>
+          <ul class="nav flex-column gap-1">
+            <li class="nav-item"><a class="nav-link" href="owner.html"><i class="bi bi-speedometer2"></i>Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="owner-fields.html"><i class="bi bi-grid-3x3-gap"></i>My fields</a></li>
+            <li class="nav-item"><a class="nav-link" href="owner-schedule.html"><i class="bi bi-calendar-week"></i>Schedule</a></li>
+            <li class="nav-item"><a class="nav-link active" href="owner-requests.html"><i class="bi bi-inbox"></i>Requests &amp; coupons</a></li>
+            <li class="nav-item"><a class="nav-link" href="../booking/messages.html"><i class="bi bi-chat-dots"></i>Messages</a></li>
+          </ul>
+        </div>
+      </aside>
 
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Suhayib</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Requests table (player, date, time, payment, status)</li>
-          <li>Accept / Reject buttons; reject opens a modal with a reason (design only)</li>
-          <li>Owner coupons section (code, discount, expiry)</li>
-      </ul>
+      <div class="col-lg-9">
+        <h1 class="section-title">Booking requests</h1>
+        <div id="formAlert"></div>
+
+        <ul class="nav nav-pills mb-3" id="tabs">
+          <li class="nav-item">
+            <a class="nav-link active" href="#" data-tab="pending">Pending <span class="badge text-bg-light" id="countPending">0</span></a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="#" data-tab="confirmed">Confirmed</a></li>
+          <li class="nav-item"><a class="nav-link" href="#" data-tab="rejected">Rejected / cancelled</a></li>
+        </ul>
+
+        <div class="panel table-responsive mb-4">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Player</th>
+                <th>Field</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Total</th>
+                <th>Paid</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="requestRows"></tbody>
+          </table>
+        </div>
+
+        <h2 class="section-title h4">My coupons</h2>
+        <div class="row g-4">
+          <div class="col-xl-7">
+            <div class="panel table-responsive">
+              <table class="table align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Discount</th>
+                    <th>Field</th>
+                    <th>Expires</th>
+                    <th>Used</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="couponRows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-xl-5">
+            <form class="panel" id="couponForm" novalidate>
+              <div id="couponAlert"></div>
+              <div class="row g-3">
+                <div class="col-6">
+                  <label for="code" class="form-label">Code</label>
+                  <input type="text" class="form-control text-uppercase" id="code" pattern="[A-Za-z0-9]{4,15}" required>
+                </div>
+                <div class="col-6">
+                  <label for="couponField" class="form-label">Field</label>
+                  <select class="form-select" id="couponField" required></select>
+                </div>
+                <div class="col-6">
+                  <label for="type" class="form-label">Type</label>
+                  <select class="form-select" id="type">
+                    <option value="percent">Percent %</option>
+                    <option value="fixed">Fixed LYD</option>
+                  </select>
+                </div>
+                <div class="col-6">
+                  <label for="value" class="form-label">Value</label>
+                  <input type="number" class="form-control" id="value" min="1" max="100" required>
+                </div>
+                <div class="col-6">
+                  <label for="expires" class="form-label">Expires</label>
+                  <input type="date" class="form-control" id="expires" required>
+                </div>
+                <div class="col-6">
+                  <label for="maxUses" class="form-label">Max uses</label>
+                  <input type="number" class="form-control" id="maxUses" min="1" value="50">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-main mt-3 w-100">Add coupon</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Reject modal -->
+        <div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectTitle" aria-hidden="true">
+          <div class="modal-dialog">
+            <form class="modal-content" id="rejectForm" novalidate>
+              <div class="modal-header">
+                <h2 class="modal-title h5" id="rejectTitle">Reject booking</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <label for="reason" class="form-label">Reason (the player will see it)</label>
+                <textarea class="form-control" id="reason" rows="3" minlength="5" required></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Back</button>
+                <button type="submit" class="btn btn-danger">Reject</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 

@@ -1,5 +1,205 @@
 /* =========================================================
-   booking.css — booking, checkout, receipt, my bookings, messages (Musab)
-   Use the shared variables from assets/css/style.css,
-   e.g. var(--color-primary), var(--radius), var(--shadow).
-   ========================================================= */
+booking.css — booking, checkout, receipt, my bookings,
+messages (Musab)
+Uses the shared variables from assets/css/style.css
+========================================================= */
+/* ---------- Field summary ---------- */
+.field-summary img {
+width: 110px;
+height: 80px;
+object-fit: cover;
+border-radius: var(--radius);
+}
+/* ---------- Days ---------- */
+.day-list {
+display: flex;
+gap: 0.5rem;
+overflow-x: auto;
+padding-bottom: 0.25rem;
+}
+.day-btn {
+flex: 0 0 auto;
+min-width: 84px;
+border: 2px solid #d5e3da;
+background: var(--color-surface);
+border-radius: var(--radius);
+padding: 0.5rem;
+text-align: center;
+font-weight: 600;
+}
+.day-btn small {
+display: block;
+color: var(--color-muted);
+font-weight: 400;
+}
+.day-btn.active {
+border-color: var(--color-primary);
+background: var(--color-primary);
+color: #fff;
+}
+.day-btn.active small {
+color: #dcefe2;
+}
+/* ---------- Time slots ---------- */
+.slot-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+gap: 0.6rem;
+}
+.slot {
+border: 2px solid var(--color-available);
+color: var(--color-available);
+background: var(--color-surface);
+border-radius: var(--radius);
+padding: 0.55rem 0.25rem;
+font-weight: 700;
+}
+.slot:hover:not(:disabled) {
+background: #eef7f1;
+}
+.slot.selected {
+background: var(--color-primary);
+border-color: var(--color-primary);
+color: #fff;
+}
+.slot.taken {
+border-color: var(--color-booked);
+color: var(--color-booked);
+text-decoration: line-through;
+opacity: 0.7;
+}
+.slot.past {
+border-color: #cfd8d3;
+color: #9aa7a0;
+}
+.price-box {
+border-top: 5px solid var(--color-primary);
+}
+.price-box .total {
+font-size: 1.8rem;
+font-weight: 800;
+color: var(--color-primary);
+}
+/* ---------- Checkout ---------- */
+.countdown {
+background: #fff4e0;
+border: 2px solid var(--color-pending);
+color: #8a5300;
+border-radius: var(--radius);
+padding: 0.6rem 1rem;
+font-weight: 700;
+}
+.countdown span {
+font-size: 1.3rem;
+}
+.pay-option {
+display: block;
+border: 2px solid #d5e3da;
+border-radius: var(--radius);
+padding: 0.9rem 1rem;
+cursor: pointer;
+height: 100%;
+}
+.pay-option:has(input:checked) {
+border-color: var(--color-primary);
+background: #eef7f1;
+}
+.summary-row {
+display: flex;
+justify-content: space-between;
+padding: 0.35rem 0;
+}
+.summary-row.total-row {
+border-top: 2px solid #e6ece8;
+margin-top: 0.4rem;
+padding-top: 0.6rem;
+font-weight: 800;
+font-size: 1.15rem;
+color: var(--color-primary);
+}
+/* ---------- Receipt ---------- */
+.receipt {
+max-width: 720px;
+margin: 0 auto;
+}
+.receipt-head {
+border-bottom: 3px solid var(--color-primary);
+padding-bottom: 1rem;
+margin-bottom: 1rem;
+}
+.receipt-brand {
+color: var(--color-primary);
+font-weight: 800;
+font-size: 1.6rem;
+}
+/* ---------- My bookings ---------- */
+.booking-card {
+border-inline-start: 5px solid var(--color-primary);
+}
+.booking-card.is-cancelled {
+border-inline-start-color: var(--color-booked);
+}
+.booking-card.is-pending {
+border-inline-start-color: var(--color-pending);
+}
+/* ---------- Messages ---------- */
+.chat-layout {
+min-height: 480px;
+}
+.conv-list {
+max-height: 520px;
+overflow-y: auto;
+}
+.conv-item {
+display: block;
+width: 100%;
+text-align: start;
+border: none;
+background: none;
+border-bottom: 1px solid #e6ece8;
+padding: 0.75rem;
+}
+.conv-item.active,
+.conv-item:hover {
+background: #eef7f1;
+}
+.chat-area {
+height: 400px;
+overflow-y: auto;
+background: #f8fbf9;
+border-radius: var(--radius);
+padding: 1rem;
+}
+.chat-bubble {
+max-width: 75%;
+padding: 0.55rem 0.9rem;
+border-radius: var(--radius);
+margin-bottom: 0.6rem;
+background: var(--color-surface);
+box-shadow: var(--shadow);
+}
+.chat-bubble.mine {
+margin-left: auto;
+background: var(--color-primary);
+color: #fff;
+}
+.chat-bubble small {
+display: block;
+font-size: 0.72rem;
+opacity: 0.75;
+}
+/* ---------- Print (receipt) ---------- */
+@media print {
+.site-navbar,
+.site-footer,
+.no-print {
+display: none !important;
+}
+body {
+background: #fff;
+}
+.panel {
+box-shadow: none;
+border: 1px solid #ccc;
+}
+}

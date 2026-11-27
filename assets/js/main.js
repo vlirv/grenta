@@ -145,7 +145,66 @@ const Malaab = (function () {
     }
   }
 
-  document.addEventListener("DOMContentLoaded", refreshNavbar);
+  /* ---------- interactive effects (every page) ---------- */
+
+  // Cards and panels slide up when they come into view
+  function setupReveal() {
+    if (!("IntersectionObserver" in window)) return;
+    const items = document.querySelectorAll(
+      "main .panel, main .field-card, main .step-card, main .stats-band, main .todo-box"
+    );
+    if (items.length === 0) return;
+
+    document.documentElement.classList.add("reveal-ready");
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    items.forEach(function (el) {
+      // Skip panels that contain fixed things like modals, and nested panels
+      if (el.querySelector(".modal") || el.parentElement.closest(".reveal")) return;
+      el.classList.add("reveal");
+      observer.observe(el);
+    });
+
+    // New cards drawn later by page scripts show at once
+    setTimeout(function () {
+      document.querySelectorAll(".reveal:not(.is-visible)").forEach(function (el) {
+        const box = el.getBoundingClientRect();
+        if (box.top < window.innerHeight) el.classList.add("is-visible");
+      });
+    }, 800);
+  }
+
+  // Football button that scrolls back to the top
+  function setupBallTop() {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ball-top";
+    btn.title = "Back to top";
+    btn.setAttribute("aria-label", "Back to top");
+    btn.innerHTML = "<span>⚽</span>";
+    document.body.appendChild(btn);
+
+    window.addEventListener("scroll", function () {
+      btn.classList.toggle("show", window.scrollY > 400);
+    }, { passive: true });
+
+    btn.addEventListener("click", function () {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    refreshNavbar();
+    setupReveal();
+    setupBallTop();
+  });
 
   return {
     load, save, nextId, url, go,

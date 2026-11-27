@@ -149,3 +149,293 @@ h1, h2, h3, h4 {
 .site-footer a:hover {
   text-decoration: underline;
 }
+
+/* =========================================================
+   INTERACTIVE EFFECTS — hover jumps, colour changes and
+   footballs (Mouen). They work on every page automatically.
+   ========================================================= */
+
+/* ---------- Animations ---------- */
+@keyframes malaab-jump {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(-12px); }
+  55%  { transform: translateY(-3px); }
+  75%  { transform: translateY(-8px); }
+  100% { transform: translateY(-6px); }
+}
+
+@keyframes malaab-hop {
+  0%   { transform: translateY(0); }
+  40%  { transform: translateY(-5px); }
+  70%  { transform: translateY(-1px); }
+  100% { transform: translateY(-3px); }
+}
+
+@keyframes malaab-ball-roll {
+  0%   { opacity: 0; transform: translateX(-40px) rotate(-360deg); }
+  100% { opacity: 1; transform: translateX(0) rotate(0); }
+}
+
+@keyframes malaab-ball-drop {
+  0%   { opacity: 0; transform: translate(-50%, -16px) rotate(0); }
+  45%  { opacity: 1; transform: translate(-50%, 4px) rotate(180deg); }
+  70%  { transform: translate(-50%, -6px) rotate(270deg); }
+  100% { opacity: 1; transform: translate(-50%, 0) rotate(360deg); }
+}
+
+@keyframes malaab-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes malaab-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25%      { transform: rotate(-14deg); }
+  75%      { transform: rotate(14deg); }
+}
+
+/* ---------- Buttons: hop + colour + a ball bounces on top ---------- */
+.btn-main,
+.btn-outline-main,
+.btn-accent {
+  position: relative;
+  transition: background-color 0.25s, color 0.25s, box-shadow 0.25s;
+}
+
+.btn-main::after,
+.btn-outline-main::after,
+.btn-accent::after {
+  content: "⚽";
+  position: absolute;
+  left: 50%;
+  top: -1.35rem;
+  font-size: 1rem;
+  line-height: 1;
+  opacity: 0;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+}
+
+.btn-main:hover,
+.btn-outline-main:hover,
+.btn-accent:hover {
+  animation: malaab-hop 0.45s ease-out forwards;
+  box-shadow: 0 8px 18px rgba(27, 127, 59, 0.3);
+}
+
+.btn-main:hover {
+  background-color: var(--color-accent);
+  color: var(--color-text);
+}
+
+.btn-main:hover::after,
+.btn-outline-main:hover::after,
+.btn-accent:hover::after {
+  animation: malaab-ball-drop 0.6s ease-out forwards;
+}
+
+.btn-main:active,
+.btn-outline-main:active,
+.btn-accent:active {
+  transform: scale(0.95);
+  animation: none;
+}
+
+.btn-main:disabled::after,
+.btn-outline-main:disabled::after {
+  display: none;
+}
+
+/* ---------- Text boxes: jump + colour + a ball rolls in ---------- */
+input.form-control:not([type="date"]):not([type="time"]):not([type="file"]):not([type="number"]),
+textarea.form-control {
+  background-repeat: no-repeat;
+  background-position: right -2rem center;
+  background-size: 1.2rem;
+  transition: border-color 0.25s, background-color 0.25s, background-position 0.45s, box-shadow 0.25s;
+}
+
+.form-control,
+.form-select {
+  transition: border-color 0.25s, background-color 0.25s, box-shadow 0.25s;
+}
+
+.form-control:hover:not(:disabled),
+.form-select:hover:not(:disabled) {
+  animation: malaab-hop 0.4s ease-out forwards;
+  border-color: var(--color-primary);
+  background-color: #f3fbf5;
+  box-shadow: 0 6px 14px rgba(27, 127, 59, 0.15);
+}
+
+input.form-control:not([type="date"]):not([type="time"]):not([type="file"]):not([type="number"]):hover:not(:disabled),
+textarea.form-control:hover:not(:disabled) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%BD%3C/text%3E%3C/svg%3E");
+  background-position: right 0.6rem center;
+}
+
+.form-control:focus,
+.form-select:focus {
+  animation: none;
+  transform: none;
+}
+
+/* ---------- Cards: jump + glow + a ball rolls into the corner ---------- */
+.field-card::after,
+.stat-card::after,
+.booking-card::after {
+  content: "⚽";
+  position: absolute;
+  top: 0.6rem;
+  right: 0.7rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.stat-card,
+.booking-card {
+  position: relative;
+}
+
+.field-card,
+.stat-card,
+.booking-card {
+  transition: box-shadow 0.25s, outline-color 0.25s;
+  outline: 3px solid transparent;
+}
+
+.field-card:hover,
+.stat-card:hover,
+.booking-card:hover {
+  animation: malaab-jump 0.55s ease-out forwards;
+  box-shadow: 0 16px 30px rgba(27, 127, 59, 0.22);
+  outline-color: var(--color-accent);
+}
+
+.field-card:hover::after,
+.stat-card:hover::after,
+.booking-card:hover::after {
+  animation: malaab-ball-roll 0.6s ease-out forwards;
+}
+
+.field-card:hover .card-title {
+  color: var(--color-primary);
+}
+
+.field-card img {
+  transition: transform 0.4s, filter 0.4s;
+}
+
+.field-card:hover img {
+  transform: scale(1.06);
+  filter: saturate(1.3);
+}
+
+/* ---------- Badges, tables and lists ---------- */
+.status {
+  transition: transform 0.2s;
+}
+
+.status:hover {
+  transform: scale(1.12);
+}
+
+.table tbody tr {
+  transition: background-color 0.2s;
+}
+
+.table tbody tr:hover > * {
+  background-color: #eef7f1;
+}
+
+.list-group-item-action,
+.nav-pills .nav-link {
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.list-group-item-action:hover,
+.nav-pills .nav-link:hover {
+  transform: translateX(4px);
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--color-primary);
+}
+
+.nav-pills .nav-link:not(.active):hover {
+  color: var(--color-primary);
+  background-color: #eef7f1;
+}
+
+/* ---------- Footer links slide ---------- */
+.site-footer a {
+  display: inline-block;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.site-footer a:hover {
+  transform: translateX(3px);
+  color: #fff;
+}
+
+/* ---------- Appear while scrolling (classes added by main.js) ---------- */
+.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal-ready .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Back-to-top football (added by main.js) ---------- */
+.ball-top {
+  position: fixed;
+  right: 1.2rem;
+  bottom: 1.2rem;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 1.6rem;
+  box-shadow: var(--shadow);
+  opacity: 0;
+  transform: translateY(80px);
+  transition: opacity 0.3s, transform 0.3s, background-color 0.3s;
+  z-index: 1050;
+}
+
+.ball-top.show {
+  opacity: 1;
+  transform: none;
+}
+
+.ball-top:hover {
+  background: var(--color-accent);
+}
+
+.ball-top:hover span {
+  display: inline-block;
+  animation: malaab-spin 0.8s linear infinite;
+}
+
+/* ---------- People who turn off animations in their system ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal-ready .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

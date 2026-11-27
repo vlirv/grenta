@@ -10,6 +10,7 @@
      Malaab.showAlert("#formAlert", "Saved!", "success");
      Malaab.go("booking/receipt.html");           // go to a page (path from project root)
      Malaab.formatPrice(120)                      // "120 LYD"
+     Malaab.myNotifications()                     // notifications of the logged-in user
    ========================================================= */
 
 const Malaab = (function () {
@@ -123,8 +124,22 @@ const Malaab = (function () {
     return div.innerHTML;
   }
 
+  // Is this notification for this user?
+  // With userId: only that user. Without userId (general, e.g. offers): players only.
+  function isForUser(n, user) {
+    if (!user) return false;
+    if (n.userId !== undefined && n.userId !== null) return n.userId === user.id;
+    return user.role === "player";
+  }
+
+  // Notifications of the logged-in user (empty list when logged out)
+  function myNotifications() {
+    const user = currentUser();
+    return load("notifications").filter((n) => isForUser(n, user));
+  }
+
   function unreadCount() {
-    return load("notifications").filter((n) => !n.read).length;
+    return myNotifications().filter((n) => !n.read).length;
   }
 
   // Updates the navbar: bell count + logged-in user icon
@@ -209,6 +224,6 @@ const Malaab = (function () {
   return {
     load, save, nextId, url, go,
     currentUser, login, logout, homeFor, requireLogin,
-    showAlert, validate, formatPrice, escapeHtml, unreadCount, refreshNavbar
+    showAlert, validate, formatPrice, escapeHtml, isForUser, myNotifications, unreadCount, refreshNavbar
   };
 })();

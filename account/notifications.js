@@ -3,6 +3,8 @@
    Shows the list, filters (all / unread / bookings / offers),
    click = mark as read, "Mark all as read" button.
    The bell number in the navbar updates automatically.
+   Each user sees only their own notifications
+   (Malaab.myNotifications in main.js).
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -11,7 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
   let filter = "all";
 
   function render() {
-    const all = Malaab.load("notifications");
+    if (!Malaab.currentUser()) {
+      newCount.style.display = "none";
+      list.innerHTML = '<p class="text-center text-muted-site p-4 mb-0">' +
+        'Please <a href="login.html">log in</a> to see your notifications.</p>';
+      return;
+    }
+    const all = Malaab.myNotifications();
     const shown = all.filter(function (n) {
       if (filter === "unread") return !n.read;
       if (filter === "all") return true;
@@ -66,7 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Mark all as read
   document.getElementById("markAll").addEventListener("click", function () {
-    update((all) => all.map((n) => Object.assign(n, { read: true })));
+    const user = Malaab.currentUser();
+    update((all) => all.map((n) => (Malaab.isForUser(n, user) ? Object.assign(n, { read: true }) : n)));
   });
 
   // Filter pills

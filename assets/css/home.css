@@ -62,3 +62,114 @@
 .owner-cta {
   border-inline-start: 6px solid var(--color-accent);
 }
+
+/* ---------- Interactive home page (Mouen) ---------- */
+
+/* A football bounces along the bottom of the hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "⚽";
+  position: absolute;
+  bottom: 0.8rem;
+  left: -3rem;
+  font-size: 2rem;
+  animation: hero-ball 9s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes hero-ball {
+  0%   { left: -3rem; transform: translateY(0) rotate(0); }
+  10%  { transform: translateY(-40px) rotate(144deg); }
+  20%  { transform: translateY(0) rotate(288deg); }
+  30%  { transform: translateY(-28px) rotate(432deg); }
+  40%  { transform: translateY(0) rotate(576deg); }
+  50%  { transform: translateY(-18px) rotate(720deg); }
+  60%  { transform: translateY(0) rotate(864deg); }
+  100% { left: 100%; transform: translateY(0) rotate(1440deg); }
+}
+
+/* Search bar: lights up when the mouse is over it */
+.hero-search {
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.hero-search:hover {
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 0 3px rgba(245, 179, 1, 0.6);
+}
+
+.hero-search .form-control:hover:not(:disabled) {
+  animation: malaab-jump 0.5s ease-out forwards;
+  background-color: #fffbea;
+  border-color: var(--color-accent);
+}
+
+/* "How it works" cards: jump, turn green, a ball rolls in */
+.step-card {
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.step-card::after {
+  content: "⚽";
+  position: absolute;
+  top: 0.8rem;
+  right: 0.9rem;
+  font-size: 1.8rem;
+  line-height: 1;
+  opacity: 0;
+}
+
+.step-card i {
+  display: inline-block;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.step-card:hover {
+  animation: malaab-jump 0.55s ease-out forwards;
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 16px 30px rgba(27, 127, 59, 0.3);
+}
+
+.step-card:hover i {
+  color: var(--color-accent);
+  transform: scale(1.25);
+}
+
+.step-card:hover .text-muted-site {
+  color: #dcefe2;
+}
+
+.step-card:hover::after {
+  animation: malaab-ball-roll 0.6s ease-out forwards;
+}
+
+/* Numbers band: each number jumps */
+.stats-band .col-6 {
+  transition: transform 0.2s;
+  cursor: default;
+}
+
+.stats-band .col-6:hover {
+  animation: malaab-jump 0.5s ease-out forwards;
+}
+
+.stats-band .col-6:hover strong {
+  color: var(--color-accent);
+}
+
+/* Owner box */
+.owner-cta {
+  transition: box-shadow 0.3s;
+}
+
+.owner-cta:hover {
+  animation: malaab-hop 0.45s ease-out forwards;
+  box-shadow: 0 14px 28px rgba(27, 127, 59, 0.2);
+}

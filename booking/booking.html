@@ -1,103 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book a field | Malaab</title>
-  <!-- Owner: Musab -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/navbar.css">
-  <link rel="stylesheet" href="../booking/booking.css">
-  <link rel="stylesheet" href="../assets/css/responsive.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a field | Malaab</title>
+<!-- Owner: Musab -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="../assets/css/navbar.css">
+<link rel="stylesheet" href="../booking/booking.css">
+<link rel="stylesheet" href="../assets/css/responsive.css">
 </head>
 <body>
-  <!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
-  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
-      <div class="d-flex order-lg-last align-items-center">
-        <a class="nav-icon" href="../fields/search.html" title="Search fields"><i class="bi bi-search"></i></a>
-        <a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
-          <i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
-        </a>
-        <a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i class="bi bi-person-circle"></i></a>
-      </div>
-      <div class="collapse navbar-collapse" id="mainNav">
-        <ul class="navbar-nav mx-auto">
-          <li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="../fields/search.html">Fields</a></li>
-          <li class="nav-item"><a class="nav-link" href="../booking/my-bookings.html">My Bookings</a></li>
-          <li class="nav-item"><a class="nav-link" href="../fields/support.html">Support</a></li>
-          <li class="nav-item"><a class="nav-link" href="../account/contact.html">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- ===== END NAVBAR ===== -->
-
-  <main class="container py-5">
-    <h1 class="section-title">Book a field</h1>
-    <p class="lead">Choose a day and a free time slot.</p>
-
-    <!-- Delete this box when your page is finished -->
-    <div class="todo-box">
-      <h2 class="h5"><i class="bi bi-cone-striped"></i> Under construction &mdash; Musab</h2>
-      <p class="mb-2">Build here:</p>
-      <ul class="mb-0">
-          <li>Field summary at the top (name, photo, price)</li>
-          <li>Day picker (next 7 days as buttons)</li>
-          <li>Time slots grid: available (green) / booked (red) / held (orange) &mdash; use <code>.status-*</code> classes</li>
-          <li>Options: recurring weekly booking, extra hour</li>
-          <li>&ldquo;Continue to checkout&rdquo; &rarr; <code>checkout.html</code></li>
-      </ul>
-    </div>
-  </main>
-
-  <!-- ===== FOOTER (shared — same on every page, owned by Mouen) ===== -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 mb-3">
-          <h5><i class="bi bi-dribbble"></i> Malaab</h5>
-          <p class="mb-0">Book your football field in Libya in a few clicks.</p>
-        </div>
-        <div class="col-md-4 mb-3">
-          <h5>Links</h5>
-          <a href="../fields/search.html">Fields</a> &middot;
-          <a href="../booking/my-bookings.html">My Bookings</a> &middot;
-          <a href="../fields/support.html">Support</a> &middot;
-          <a href="../account/contact.html">Contact</a>
-          <br>
-          <a href="../account/login.html">Login</a> &middot;
-          <a href="../account/register.html">Register</a> &middot;
-          <a href="../account/register-owner.html">List your field</a>
-          <br>
-          <a href="../dashboard/owner.html">Owner panel</a> &middot;
-          <a href="../dashboard/admin.html">Admin panel</a>
-        </div>
-        <div class="col-md-4 mb-3">
-          <h5>Contact</h5>
-          <p class="mb-1"><i class="bi bi-telephone"></i> +218 91 000 0000</p>
-          <p class="mb-0"><i class="bi bi-envelope"></i> info@malaab.ly</p>
-        </div>
-      </div>
-      <p class="text-center small mt-3 mb-0">&copy; 2026 Malaab</p>
-    </div>
-  </footer>
-  <!-- ===== END FOOTER ===== -->
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Shared JS (Mouen): demo data + helpers used by every page -->
-  <script src="../assets/js/data.js"></script>
-  <script src="../assets/js/main.js"></script>
-  <!-- This page's own JS -->
-  <script src="booking.js"></script>
+<!-- ===== NAVBAR (shared — same on every page, owned by Mouen) ===== -->
+<nav class="navbar navbar-expand-lg site-navbar sticky-top">
+<div class="container">
+<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+aria-controls="mainNav" aria-expanded="false" aria-label="Menu">
+<span class="navbar-toggler-icon"></span>
+</button>
+<a class="navbar-brand mx-auto mx-lg-0" href="../index.html"><i class="bi bi-dribbble"></i> Malaab</a>
+<div class="d-flex order-lg-last align-items-center">
+<a class="nav-icon" href="../fields/search.html" title="Search fields"><i class="bi bi-search"></i></a>
+<a class="nav-icon position-relative" href="../account/notifications.html" title="Notifications">
+<i class="bi bi-bell"></i><span class="nav-badge" id="navBadge">3</span>
+</a>
+<a class="nav-icon" id="navUser" href="../account/login.html" title="Login"><i
+class="bi bi-person-circle"></i></a>
+</div>
+<div class="collapse navbar-collapse" id="mainNav">
+<ul class="navbar-nav mx-auto">
+<li class="nav-item"><a class="nav-link" href="../index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="../fields/search.html">Fields</a></li>
+<li class="nav-item"><a class="nav-link" href="../booking/my-bookings.html">My Bookings</a></li>
+<li class="nav-item"><a class="nav-link" href="../fields/support.html">Support</a></li>
+<li class="nav-item"><a class="nav-link" href="../account/contact.html">Contact</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<!-- ===== END NAVBAR ===== -->
+<main class="container py-5">
+<h1 class="section-title">Book a field</h1>
+<div id="formAlert"></div>
+<div class="row g-4">
+<div class="col-lg-8">
+<div class="panel field-summary d-flex align-items-center gap-3 mb-4">
+<img src="../assets/images/placeholder.svg" alt="" id="fieldPhoto">
+<div>
+<h2 class="h5 mb-1" id="fieldName">Field</h2>
+<p class="text-muted-site mb-1" id="fieldPlace"></p>
+<span class="price-tag" id="fieldPrice"></span>
+</div>
+</div>
+<div class="panel mb-4">
+<h2 class="h6 fw-bold mb-3"><i class="bi bi-calendar3"></i> 1. Choose a day</h2>
+<div class="day-list" id="dayList"></div>
+</div>
+<div class="panel">
+<h2 class="h6 fw-bold mb-3"><i class="bi bi-clock"></i> 2. Choose a time</h2>
+<div class="slot-grid" id="slotGrid"></div>
+<div class="d-flex flex-wrap gap-3 mt-3 small">
+<span><span class="status status-available">Free</span></span>
+<span><span class="status status-booked">Booked</span></span>
+<span class="text-muted-site">Click a free time to choose it.</span>
+</div>
+</div>
+</div>
+<div class="col-lg-4">
+<div class="panel price-box sticky-lg-top">
+<h2 class="h6 fw-bold mb-3">3. Options</h2>
+<div class="mb-3">
+<label for="hours" class="form-label">Duration</label>
+<select class="form-select" id="hours">
+<option value="1">1 hour</option>
+<option value="2">2 hours</option>
+</select>
+</div>
+<div class="form-check mb-3">
+<input class="form-check-input" type="checkbox" id="recurring">
+<label class="form-check-label" for="recurring">Repeat weekly (4 weeks)</label>
+</div>
+<div class="summary-row"><span>Day</span><strong id="sumDay">–</strong></div>
+<div class="summary-row"><span>Time</span><strong id="sumTime">–</strong></div>
+<div class="summary-row"><span>Price</span><span id="sumCalc">–</span></div>
+<p class="mb-1 mt-2 text-muted-site">Total</p>
+<p class="total mb-3" id="sumTotal">0 LYD</p>
+<button type="button" class="btn btn-main w-100" id="continueBtn" disabled>
+Continue to checkout <i class="bi bi-arrow-right"></i>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- ===== FOOTER (shared — same on every page, owned by Mouen) ===== -->
+<footer class="site-footer">
+<div class="container">
+<div class="row">
+<div class="col-md-4 mb-3">
+<h5><i class="bi bi-dribbble"></i> Malaab</h5>
+<p class="mb-0">Book your football field in Libya in a few clicks.</p>
+</div>
+<div class="col-md-4 mb-3">
+<h5>Links</h5>
+<a href="../fields/search.html">Fields</a> &middot;
+<a href="../booking/my-bookings.html">My Bookings</a> &middot;
+<a href="../fields/support.html">Support</a> &middot;
+<a href="../account/contact.html">Contact</a>
+<br>
+<a href="../account/login.html">Login</a> &middot;
+<a href="../account/register.html">Register</a> &middot;
+<a href="../account/register-owner.html">List your field</a>
+<br>
+<a href="../dashboard/owner.html">Owner panel</a> &middot;
+<a href="../dashboard/admin.html">Admin panel</a>
+</div>
+<div class="col-md-4 mb-3">
+<h5>Contact</h5>
+<p class="mb-1"><i class="bi bi-telephone"></i> +218 91 000 0000</p>
+<p class="mb-0"><i class="bi bi-envelope"></i> info@malaab.ly</p>
+</div>
+</div>
+<p class="text-center small mt-3 mb-0">&copy; 2026 Malaab</p>
+</div>
+</footer>
+<!-- ===== END FOOTER ===== -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Shared JS (Mouen): demo data + helpers used by every page -->
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/main.js"></script>
+<!-- This page's own JS -->
+<script src="booking.js"></script>
 </body>
 </html>

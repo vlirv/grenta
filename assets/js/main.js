@@ -96,6 +96,11 @@ const Malaab = (function () {
   function requireLogin(roles) {
     const user = currentUser();
     if (!user) {
+      // Admin pages never send visitors to a login page (the admin login is private)
+      if (roles && roles.length === 1 && roles[0] === "admin") {
+        go("index.html");
+        return null;
+      }
       go("account/login.html?next=" + encodeURIComponent(location.href));
       return null;
     }
@@ -419,6 +424,21 @@ const Malaab = (function () {
     img.src = url("assets/images/placeholder.svg");
   }, true);
 
+  // Links to the admin panel are only shown to admins
+  function hideAdminLinks() {
+    const user = currentUser();
+    if (user && user.role === "admin") return;
+    document.querySelectorAll('a[href*="dashboard/admin"]').forEach(function (a) {
+      if (a.closest(".dash-sidebar")) return;
+      const before = a.previousSibling;
+      if (before && before.nodeType === 3 && before.nodeValue.trim() === "·") before.remove();
+      else if (before && before.nodeType === 3 && /·\s*$/.test(before.nodeValue)) {
+        before.nodeValue = before.nodeValue.replace(/\s*·\s*$/, " ");
+      }
+      a.remove();
+    });
+  }
+
   // Small "Photo credits" link in every footer
   function addCreditsLink() {
     const line = document.querySelector(".site-footer .text-center.small");
@@ -433,6 +453,7 @@ const Malaab = (function () {
 
   document.addEventListener("DOMContentLoaded", function () {
     addCreditsLink();
+    hideAdminLinks();
     refreshNavbar();
     setupReveal();
     setupBallTop();

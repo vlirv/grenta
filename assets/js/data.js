@@ -8,13 +8,13 @@
 
 const MALAAB_DATA = {
   // Change this number when the demo data changes: old saved data is then cleared once
-  version: 2,
+  version: 3,
 
   // Demo accounts — password for all: 123456
   users: [
     { id: 1, name: "Ahmed Ali", email: "user@demo.ly", phone: "0912345678", city: "Tripoli", password: "123456", role: "player", status: "active" },
     { id: 2, name: "Salem Owner", email: "owner@demo.ly", phone: "0923456789", city: "Tripoli", password: "123456", role: "owner", status: "active" },
-    { id: 3, name: "Admin", email: "admin@demo.ly", phone: "0919999999", city: "Tripoli", password: "123456", role: "admin", status: "active" }
+    { id: 3, name: "Admin", email: "admin@malaab.ly", phone: "0919999999", city: "Tripoli", password: "Admin#2026", role: "admin", status: "active" }
   ],
 
   // Fields — used by home, search, field details, booking, owner panel

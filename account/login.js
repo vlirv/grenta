@@ -2,7 +2,8 @@
    login.js — login page (Mouen)
    Checks email + password + role against the users list,
    saves the session and sends the user to the right page:
-   player → home, owner → owner panel, admin → admin panel.
+   player → home, owner → owner panel.
+   Admin accounts cannot log in here (they have a private page).
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -36,7 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const user = Malaab.load("users").find((u) => u.email.toLowerCase() === email);
 
-    if (!user || user.password !== password) {
+    // Admins use their own private login page, not this one
+    if (!user || user.password !== password || user.role === "admin") {
       Malaab.showAlert("#formAlert", "Wrong email or password.", "danger");
       return;
     }

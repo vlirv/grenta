@@ -89,7 +89,8 @@ Malaab.validate(form);                         // Bootstrap validation, true if 
 Malaab.go("booking/receipt.html?id=1001");     // path from the project root
 ```
 
-Demo accounts (password `123456`): player `user@demo.ly`, owner `owner@demo.ly`, admin `admin@demo.ly`.
+Demo accounts (password `123456`): player `user@demo.ly`, owner `owner@demo.ly`.
+The admin has a private login page (ask Mouen for the address and the access code).
 To reset the demo data: open the browser console and run `localStorage.clear()`.
 
 **Site-wide features (Mouen, in `assets/`):** navbar user menu with Logout and the right links for each

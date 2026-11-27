@@ -578,6 +578,15 @@
       "ملعب عشب كامل (11 لاعب) في نادي الزاوية الرياضي، مثالي للفرق الكبيرة والبطولات.",
     "Photo credits": "مصادر الصور",
 
+    // ----- Private admin login -----
+    "Staff access": "دخول الإدارة",
+    "This page is for Malaab administrators only.": "هذه الصفحة لمديري ملاعب فقط.",
+    "Admin email": "بريد المدير",
+    "Access code": "رمز الدخول",
+    "Enter admin panel": "الدخول إلى لوحة المدير",
+    "Access denied.": "تم رفض الدخول.",
+    "Staff": "الإدارة",
+
     // ----- Page titles -----
     "Field details": "تفاصيل الملعب",
     "Forgot password": "نسيت كلمة المرور",
@@ -636,7 +645,8 @@
       return (AR[role] || role) + " · " + translateWords(rest);
     }],
     [/^(\d+|\+\d+|-\d+) week\(s\)$/, "$1 أسبوع"],
-    [/^Edit (.+)$/, "تعديل $1"]
+    [/^Edit (.+)$/, "تعديل $1"],
+    [/^Too many wrong tries\. Try again in (\d+) minute\(s\)\.$/, "محاولات خاطئة كثيرة. حاول بعد $1 دقيقة."]
   ];
 
   function translateWords(text) {

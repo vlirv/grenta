@@ -500,3 +500,12 @@ textarea.form-control:hover:not(:disabled) {
   object-fit: cover;
   border-radius: 6px;
 }
+
+/* ---------- Private admin login ---------- */
+.admin-login {
+  border-top: 5px solid var(--color-text);
+}
+
+.auth-icon.admin-icon {
+  background: var(--color-text);
+}

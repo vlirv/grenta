@@ -94,3 +94,63 @@
   display: inline-block;
   animation: malaab-wiggle 0.5s ease-in-out;
 }
+
+/* ---------- Language button and user menu (Mouen) ---------- */
+.lang-btn {
+  border: 2px solid var(--color-primary);
+  background: none;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  min-width: 2.2rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  margin-inline-end: 0.25rem;
+  line-height: 1;
+}
+
+.lang-btn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.user-btn {
+  border: none;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.user-btn .user-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.user-btn::after {
+  font-size: 0.7rem;
+}
+
+#userMenu .dropdown-menu {
+  border: none;
+  border-radius: var(--radius);
+  min-width: 13rem;
+}
+
+#userMenu .dropdown-item {
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+}
+
+#userMenu .dropdown-item i {
+  color: var(--color-primary);
+  margin-inline-end: 0.4rem;
+}
+
+#userMenu .dropdown-item.text-danger i {
+  color: var(--color-booked);
+}
+
+#userMenu .dropdown-item:hover {
+  background: #eef7f1;
+}

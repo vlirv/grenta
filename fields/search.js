@@ -1,6 +1,8 @@
 /* =========================================================
    search.js — find a field (Wael)
-   Live search, filters, sorting, "fields near me" and map.
+   Live search, filters, sorting, "fields near me", map with
+   all fields (Leaflet), date filter with free time slots,
+   favourite hearts.
    ========================================================= */
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("searchForm");
@@ -13,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const maxPriceText = document.getElementById("maxPriceText");
   const results = document.getElementById("results");
   const resultCount = document.getElementById("resultCount");
-  const mapFrame = document.getElementById("mapFrame");
+  const mapBox = document.getElementById("map");
   const mapText = document.getElementById("mapText");
   // Only approved fields are shown to players
   const fields = Malaab.load("fields").filter(function (f) {
@@ -58,6 +60,15 @@ document.addEventListener("DOMContentLoaded", function () {
         (!size.value || f.size === size.value) &&
         f.price <= Number(maxPrice.value);
     });
+    // Date chosen: keep only fields that still have free time that day
+    if (dateInput.value) {
+      list.forEach(function (f) { f.free = Malaab.freeSlots(f.id, dateInput.value); });
+      for (let i = list.length - 1; i >= 0; i--) {
+        if (list[i].free.length === 0) list.splice(i, 1);
+      }
+    } else {
+      list.forEach(function (f) { f.free = null; });
+    }
     list.forEach(function (f) {
       f.distance = myPosition && f.lat ? distanceKm(myPosition.lat, myPosition.lng, f.lat, f.lng) : null;
     });
@@ -76,6 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return (
       '<div class="col-sm-6">' +
         '<div class="card field-card h-100">' +
+          Malaab.favButton(f.id) +
           '<img src="' + Malaab.escapeHtml(photo) + '" class="card-img-top" alt="' +
             Malaab.escapeHtml(f.name) + '">' +
           '<div class="card-body">' +
@@ -86,7 +98,10 @@ document.addEventListener("DOMContentLoaded", function () {
               (f.rating ? f.rating.toFixed(1) : "New") + "</small>" +
               (f.distance !== null ? ' <span class="distance ms-2"><i class="bi bi-cursor"></i> ' +
                 f.distance.toFixed(1) + " km</span>" : "") + "</p>" +
-            '<p class="price-tag mb-3">' + Malaab.formatPrice(f.price) + " / hour</p>" +
+            '<p class="price-tag mb-2">' + Malaab.formatPrice(f.price) + " / hour</p>" +
+            (f.free ? '<p class="small mb-3"><span class="status status-available">' + f.free.length +
+              " free</span> " + Malaab.escapeHtml(f.free.slice(0, 4).join(", ")) +
+              (f.free.length > 4 ? "…" : "") + "</p>" : '<div class="mb-1"></div>') +
             '<div class="mt-auto d-flex gap-2">' +
               '<a class="btn btn-outline-main btn-sm flex-fill" href="field.html?id=' + f.id + '">Details</a>' +
               '<a class="btn btn-main btn-sm flex-fill" href="../booking/booking.html?field=' + f.id +
@@ -97,28 +112,55 @@ document.addEventListener("DOMContentLoaded", function () {
       "</div>"
     );
   }
+  // ----- Map with every field in the list -----
+  let map = null;
+  let markers = null;
   function updateMap(list) {
-    const f = list[0];
-    if (!f || !f.lat) return;
-    const d = 0.03;
-    const bbox = (f.lng - d) + "%2C" + (f.lat - d) + "%2C" + (f.lng + d) + "%2C" + (f.lat + d);
-    mapFrame.src = "https://www.openstreetmap.org/export/embed.html?bbox=" + bbox +
-      "&layer=mapnik&marker=" + f.lat + "%2C" + f.lng;
-    mapText.textContent = "Showing: " + f.name + " (" + f.city + ")";
+    if (typeof L === "undefined") {
+      mapText.textContent = "The map could not load (no internet).";
+      return;
+    }
+    if (!map) {
+      map = L.map(mapBox, { scrollWheelZoom: false }).setView([32.88, 13.18], 6);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 18,
+        attribution: "&copy; OpenStreetMap"
+      }).addTo(map);
+      markers = L.layerGroup().addTo(map);
+    }
+    markers.clearLayers();
+    const points = [];
+    list.forEach(function (f) {
+      if (!f.lat) return;
+      points.push([f.lat, f.lng]);
+      L.marker([f.lat, f.lng]).addTo(markers).bindPopup(
+        "<strong>" + Malaab.escapeHtml(f.name) + "</strong><br>" + Malaab.formatPrice(f.price) + " / hour<br>" +
+        '<a href="field.html?id=' + f.id + '">Details</a> · <a href="../booking/booking.html?field=' + f.id +
+        '">Book</a>'
+      );
+    });
+    if (myPosition) {
+      L.circleMarker([myPosition.lat, myPosition.lng], { radius: 8, color: "#f5b301" })
+        .addTo(markers).bindPopup("You are here");
+      points.push([myPosition.lat, myPosition.lng]);
+    }
+    if (points.length === 1) map.setView(points[0], 13);
+    else if (points.length > 1) map.fitBounds(points, { padding: [30, 30], maxZoom: 13 });
+    mapText.textContent = list.length + " field(s) on the map. Click a pin for details.";
   }
   function render() {
     maxPriceText.textContent = Malaab.formatPrice(maxPrice.value);
     const list = getFiltered();
     resultCount.textContent = list.length + (list.length === 1 ? " field found" : " fields found");
+    updateMap(list);
     if (list.length === 0) {
       results.innerHTML =
         '<div class="col-12"><div class="panel empty-state"><i class="bi bi-search"></i>' +
-        '<p class="mt-2 mb-0">No fields match your search. Try another name or remove filters.</p>' +
+        '<p class="mt-2 mb-0">No fields match your search. Try another name, another date or remove filters.</p>' +
         "</div></div>";
       return;
     }
     results.innerHTML = list.map(cardHtml).join("");
-    updateMap(list);
   }
   // Live filtering
   [q, city, size, sort, maxPrice, dateInput].forEach(function (el) {

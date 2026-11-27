@@ -132,3 +132,10 @@ font-weight: 600;
   opacity: 0.75;
   font-size: 0.75rem;
 }
+/* ---------- Leaflet map ---------- */
+.map-canvas {
+  width: 100%;
+  height: 360px;
+  border-radius: var(--radius);
+  z-index: 0;
+}

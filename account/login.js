@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
   if (params.get("registered") === "1") {
     Malaab.showAlert("#formAlert", "Account created. You can log in now.", "success");
   }
+  if (params.get("reset") === "1") {
+    Malaab.showAlert("#formAlert", "Your password was changed. Log in with the new password.", "success");
+  }
   if (params.get("email")) {
     form.elements.email.value = params.get("email");
   }

@@ -85,7 +85,8 @@ document.addEventListener("DOMContentLoaded", function () {
             '<span class="carousel-control-next-icon" aria-hidden="true"></span>' +
             '<span class="visually-hidden">Next</span></button>' +
         "</div>" +
-        '<h1 class="section-title mb-1">' + esc(field.name) + "</h1>" +
+        '<div class="d-flex align-items-center gap-3 mb-1"><h1 class="section-title mb-0">' + esc(field.name) +
+          "</h1>" + Malaab.favButton(field.id).replace("fav-btn", "fav-btn inline") + "</div>" +
         '<p class="field-meta"><i class="bi bi-geo-alt"></i> ' + esc(field.city + " – " + field.area) +
           " &middot; " + esc(field.size) + "</p>" +
         '<p>' + starsHtml(field.rating) + " <strong>" + (field.rating ? field.rating.toFixed(1) : "New") +

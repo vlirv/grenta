@@ -16,7 +16,8 @@ grenta/
 │   ├── js/data.js             Demo data: users, fields, bookings, coupons, notifications
 │   ├── js/main.js             Shared helpers (Malaab.load/save, login, alerts …)
 │   ├── js/home.js             Home page JS
-│   └── images/                Put ALL photos here (everyone)
+│   ├── js/lang-ar.js          Arabic translation (loaded when you press "ع")
+│   └── images/                All photos (field-1a.jpg … field-6b.jpg, hero.jpg)
 │
 ├── account/                   👤 MOUEN – accounts & core
 │   ├── login.html             Login (player / owner / admin)
@@ -25,6 +26,9 @@ grenta/
 │   ├── profile.html           Profile + change password
 │   ├── notifications.html     Notifications
 │   ├── contact.html           Contact form + map
+│   ├── forgot-password.html   Reset password (email + phone)
+│   ├── favorites.html         The player's favourite fields
+│   ├── credits.html           Photo credits (Wikimedia Commons)
 │   └── account.css
 │
 ├── fields/                    🔎 WAEL – field discovery, reviews, support
@@ -51,6 +55,8 @@ grenta/
     ├── admin.html             Admin dashboard
     ├── admin-approvals.html   Approve owners & fields
     ├── admin-users.html       Users / owners / fields / reviews
+    ├── owner-bookings.html    Owner: all bookings + income totals + CSV
+    ├── admin-bookings.html    Admin: every booking on the platform + CSV
     └── dashboard.css
 ```
 
@@ -85,6 +91,10 @@ Malaab.go("booking/receipt.html?id=1001");     // path from the project root
 
 Demo accounts (password `123456`): player `user@demo.ly`, owner `owner@demo.ly`, admin `admin@demo.ly`.
 To reset the demo data: open the browser console and run `localStorage.clear()`.
+
+**Site-wide features (Mouen, in `assets/`):** navbar user menu with Logout and the right links for each
+role, Arabic / English switch (button "ع" in the navbar, right-to-left layout), favourites (heart on every
+field card, `Malaab.favButton(id)`), hover effects and footballs, back-to-top ball, photo credits link.
 
 **Already working (Mouen):** login with role check and redirect, sign-up (password match, unique
 email), owner sign-up (saved as *pending* for the admin approvals page), profile edit + change

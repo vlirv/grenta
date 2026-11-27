@@ -7,6 +7,9 @@
    ========================================================= */
 
 const MALAAB_DATA = {
+  // Change this number when the demo data changes: old saved data is then cleared once
+  version: 2,
+
   // Demo accounts — password for all: 123456
   users: [
     { id: 1, name: "Ahmed Ali", email: "user@demo.ly", phone: "0912345678", city: "Tripoli", password: "123456", role: "player", status: "active" },
@@ -16,12 +19,24 @@ const MALAAB_DATA = {
 
   // Fields — used by home, search, field details, booking, owner panel
   fields: [
-    { id: 1, name: "Andalus Arena", city: "Tripoli", area: "Hay Al Andalus", size: "5-a-side", price: 120, rating: 4.8, ownerId: 2, lat: 32.874, lng: 13.137, facilities: ["parking", "showers", "lights", "cafe"] },
-    { id: 2, name: "Green Star", city: "Tripoli", area: "Souq Al Juma", size: "7-a-side", price: 100, rating: 4.5, ownerId: 2, lat: 32.905, lng: 13.236, facilities: ["parking", "lights"] },
-    { id: 3, name: "Benghazi 5-a-side", city: "Benghazi", area: "Al Fuwayhat", size: "5-a-side", price: 90, rating: 4.6, ownerId: 2, lat: 32.087, lng: 20.093, facilities: ["lights", "showers"] },
-    { id: 4, name: "Misrata Stadium Mini", city: "Misrata", area: "Center", size: "7-a-side", price: 110, rating: 4.4, ownerId: 2, lat: 32.377, lng: 15.092, facilities: ["parking", "lights", "cafe"] },
-    { id: 5, name: "Seaside Pitch", city: "Tripoli", area: "Gargaresh", size: "5-a-side", price: 130, rating: 4.9, ownerId: 2, lat: 32.861, lng: 13.105, facilities: ["parking", "showers", "lights"] },
-    { id: 6, name: "Zawiya Sports Club", city: "Zawiya", area: "Center", size: "11-a-side", price: 80, rating: 4.2, ownerId: 2, lat: 32.757, lng: 12.727, facilities: ["parking"] }
+    { id: 1, name: "Andalus Arena", city: "Tripoli", area: "Hay Al Andalus", size: "5-a-side", price: 120, rating: 4.8, ownerId: 2, lat: 32.874, lng: 13.137, facilities: ["parking", "showers", "lights", "cafe"],
+      photos: ["field-1a.jpg", "field-1b.jpg"], phone: "0911234501",
+      description: "Popular 5-a-side field in Hay Al Andalus with new artificial grass, bright night lights and a small café for after the match." },
+    { id: 2, name: "Green Star", city: "Tripoli", area: "Souq Al Juma", size: "7-a-side", price: 100, rating: 4.5, ownerId: 2, lat: 32.905, lng: 13.236, facilities: ["parking", "lights"],
+      photos: ["field-2a.jpg", "field-2b.jpg"], phone: "0921234502",
+      description: "Large 7-a-side field in Souq Al Juma. Good for teams of 7, with parking right next to the entrance." },
+    { id: 3, name: "Benghazi 5-a-side", city: "Benghazi", area: "Al Fuwayhat", size: "5-a-side", price: 90, rating: 4.6, ownerId: 2, lat: 32.087, lng: 20.093, facilities: ["lights", "showers"],
+      photos: ["field-3a.jpg", "field-3b.jpg"], phone: "0941234503",
+      description: "Friendly neighbourhood field in Al Fuwayhat, Benghazi. Showers and lights for evening games." },
+    { id: 4, name: "Misrata Stadium Mini", city: "Misrata", area: "Center", size: "7-a-side", price: 110, rating: 4.4, ownerId: 2, lat: 32.377, lng: 15.092, facilities: ["parking", "lights", "cafe"],
+      photos: ["field-4a.jpg", "field-4b.jpg"], phone: "0911234504",
+      description: "Mini stadium in the centre of Misrata with seats for friends and family, parking and a café." },
+    { id: 5, name: "Seaside Pitch", city: "Tripoli", area: "Gargaresh", size: "5-a-side", price: 130, rating: 4.9, ownerId: 2, lat: 32.861, lng: 13.105, facilities: ["parking", "showers", "lights"],
+      photos: ["field-5a.jpg", "field-5b.jpg"], phone: "0921234505",
+      description: "Field close to the sea in Gargaresh. Fresh air, showers and lights, a favourite for night matches." },
+    { id: 6, name: "Zawiya Sports Club", city: "Zawiya", area: "Center", size: "11-a-side", price: 80, rating: 4.2, ownerId: 2, lat: 32.757, lng: 12.727, facilities: ["parking"],
+      photos: ["field-6a.jpg", "field-6b.jpg"], phone: "0931234506",
+      description: "Full-size 11-a-side grass field at Zawiya Sports Club. Perfect for big teams and tournaments." }
   ],
 
   // Coupons — used by checkout (Musab) and owner/admin coupons (Suhayib)
@@ -43,7 +58,7 @@ const MALAAB_DATA = {
 
   // Bookings — used by booking pages (Musab) and owner/admin (Suhayib)
   bookings: [
-    { id: 1001, userId: 1, fieldId: 1, date: "2026-12-04", time: "20:00", hours: 1, total: 120, paid: 40, status: "confirmed" },
-    { id: 1002, userId: 1, fieldId: 2, date: "2026-12-06", time: "18:00", hours: 1, total: 100, paid: 0, status: "pending" }
+    { id: 1001, userId: 1, fieldId: 1, date: "2026-12-04", time: "20:00", hours: 1, total: 120, paid: 40, payment: "deposit", status: "confirmed" },
+    { id: 1002, userId: 1, fieldId: 2, date: "2026-12-06", time: "18:00", hours: 1, total: 100, paid: 0, payment: "field", status: "pending" }
   ]
 };

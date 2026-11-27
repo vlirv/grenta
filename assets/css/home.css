@@ -3,8 +3,8 @@
    ========================================================= */
 
 .hero {
-  background: linear-gradient(rgba(18, 90, 42, 0.85), rgba(18, 90, 42, 0.85)),
-              url("../images/placeholder.svg") center / cover;
+  background: linear-gradient(rgba(10, 60, 28, 0.72), rgba(10, 60, 28, 0.78)),
+              url("../images/hero.jpg") center / cover;
   color: #fff;
   padding: 5rem 1rem;
 }

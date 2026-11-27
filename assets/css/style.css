@@ -439,3 +439,64 @@ textarea.form-control:hover:not(:disabled) {
     transform: none;
   }
 }
+
+/* ---------- Favourite heart button (Malaab.favButton) ---------- */
+.fav-btn {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-booked);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.fav-btn:hover {
+  transform: scale(1.15);
+}
+
+.fav-btn.is-fav {
+  background: var(--color-booked);
+  color: #fff;
+}
+
+.fav-btn.is-fav i {
+  animation: malaab-hop 0.4s ease-out;
+}
+
+.fav-btn.inline {
+  position: static;
+}
+
+/* ---------- Arabic (right-to-left) ---------- */
+[dir="rtl"] .fav-btn {
+  left: auto;
+  right: 0.6rem;
+}
+
+[dir="rtl"] .field-card::after,
+[dir="rtl"] .stat-card::after,
+[dir="rtl"] .booking-card::after {
+  right: auto;
+  left: 0.7rem;
+}
+
+[dir="rtl"] body {
+  font-family: "Cairo", Tahoma, sans-serif;
+}
+
+.credit-thumb {
+  width: 80px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+}

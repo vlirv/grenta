@@ -11,6 +11,8 @@
      Malaab.go("booking/receipt.html");           // go to a page (path from project root)
      Malaab.formatPrice(120)                      // "120 LYD"
      Malaab.myNotifications()                     // notifications of the logged-in user
+     Malaab.isFavorite(fieldId) / Malaab.favButton(fieldId)   // favourites (heart button)
+     Malaab.lang()                                // "en" or "ar"
    ========================================================= */
 
 const Malaab = (function () {
@@ -19,6 +21,22 @@ const Malaab = (function () {
   // Root folder of the site, found from this script's own address,
   // so links work from any folder (index.html, account/, booking/ …).
   const ROOT = document.currentScript.src.replace(/assets\/js\/main\.js.*$/, "");
+
+  // When data.js gets a new version, old saved demo data is cleared once,
+  // so every visitor gets the new fields, photos, etc.
+  (function checkDataVersion() {
+    try {
+      const saved = localStorage.getItem(PREFIX + "version");
+      if (saved !== String(MALAAB_DATA.version)) {
+        const lang = localStorage.getItem(PREFIX + "lang");
+        Object.keys(localStorage).forEach(function (k) {
+          if (k.indexOf(PREFIX) === 0) localStorage.removeItem(k);
+        });
+        localStorage.setItem(PREFIX + "version", String(MALAAB_DATA.version));
+        if (lang) localStorage.setItem(PREFIX + "lang", lang);
+      }
+    } catch (e) { /* storage blocked */ }
+  })();
 
   /* ---------- storage ---------- */
   function load(key) {
@@ -142,8 +160,123 @@ const Malaab = (function () {
     return myNotifications().filter((n) => !n.read).length;
   }
 
-  // Updates the navbar: bell count + logged-in user icon
+  /* ---------- free time slots (used by search) ---------- */
+  // Free start times of a field on a date ("YYYY-MM-DD"), using the owner's
+  // schedule (default 16:00–23:00, 1-hour slots) and existing bookings.
+  function freeSlots(fieldId, dateStr) {
+    const DAY_KEYS = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+    const sched = (load("schedule") || {})[fieldId] || {};
+    if ((sched.blocked || []).includes(dateStr)) return [];
+    const day = sched.days && sched.days[DAY_KEYS[new Date(dateStr + "T00:00").getDay()]];
+    if (day && day.closed) return [];
+    const toMin = function (t) { return Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5)); };
+    const open = toMin(day ? day.open : "16:00");
+    const close = toMin(day ? day.close : "23:00");
+    const step = sched.slotMinutes || 60;
+    const taken = load("bookings").filter(function (b) {
+      return b.fieldId === fieldId && b.date === dateStr && (b.status === "pending" || b.status === "confirmed");
+    });
+    const now = new Date();
+    const result = [];
+    for (let m = open; m + step <= close; m += step) {
+      const time = String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+      if (new Date(dateStr + "T" + time) <= now) continue;
+      const busy = taken.some(function (b) {
+        const s = toMin(b.time);
+        return m < s + (b.hours || 1) * 60 && s < m + step;
+      });
+      if (!busy) result.push(time);
+    }
+    return result;
+  }
+
+  /* ---------- favourites ---------- */
+  // Saved as { "<userId>": [fieldId, …] }
+  function favoriteIds() {
+    const user = currentUser();
+    if (!user) return [];
+    return (load("favorites") || {})[user.id] || [];
+  }
+
+  function isFavorite(fieldId) {
+    return favoriteIds().includes(Number(fieldId));
+  }
+
+  // Returns true if the field is now a favourite
+  function toggleFavorite(fieldId) {
+    const user = currentUser();
+    if (!user) {
+      go("account/login.html?next=" + encodeURIComponent(location.href));
+      return false;
+    }
+    const all = load("favorites") || {};
+    const list = all[user.id] || [];
+    const id = Number(fieldId);
+    all[user.id] = list.includes(id) ? list.filter((x) => x !== id) : list.concat(id);
+    save("favorites", all);
+    return all[user.id].includes(id);
+  }
+
+  // Heart button HTML for any field card: Malaab.favButton(field.id)
+  function favButton(fieldId) {
+    const on = isFavorite(fieldId);
+    return '<button type="button" class="fav-btn' + (on ? " is-fav" : "") + '" data-fav="' + Number(fieldId) +
+      '" aria-pressed="' + on + '" title="' + (on ? "Remove from favourites" : "Add to favourites") + '">' +
+      '<i class="bi ' + (on ? "bi-heart-fill" : "bi-heart") + '"></i></button>';
+  }
+
+  // One click handler for every heart button on every page
+  document.addEventListener("click", function (e) {
+    const btn = e.target.closest("[data-fav]");
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const on = toggleFavorite(btn.dataset.fav);
+    if (!currentUser()) return;
+    document.querySelectorAll('[data-fav="' + btn.dataset.fav + '"]').forEach(function (b) {
+      b.classList.toggle("is-fav", on);
+      b.setAttribute("aria-pressed", on);
+      b.title = on ? "Remove from favourites" : "Add to favourites";
+      b.querySelector("i").className = "bi " + (on ? "bi-heart-fill" : "bi-heart");
+    });
+    document.dispatchEvent(new CustomEvent("malaab:favorites"));
+  });
+
+  /* ---------- language ---------- */
+  function lang() {
+    try { return localStorage.getItem(PREFIX + "lang") === "ar" ? "ar" : "en"; } catch (e) { return "en"; }
+  }
+
+  function setLang(value) {
+    try { localStorage.setItem(PREFIX + "lang", value); } catch (e) { /* ignore */ }
+    location.reload();
+  }
+
+  // Arabic: switch Bootstrap to its RTL file and load the translations (lang-ar.js)
+  function applyLanguage() {
+    if (lang() !== "ar") return;
+    document.documentElement.lang = "ar";
+    document.documentElement.dir = "rtl";
+    document.querySelectorAll('link[href*="bootstrap.min.css"]').forEach(function (link) {
+      link.href = link.href.replace("bootstrap.min.css", "bootstrap.rtl.min.css");
+    });
+    const script = document.createElement("script");
+    script.src = url("assets/js/lang-ar.js");
+    document.head.appendChild(script);
+  }
+  applyLanguage();
+
+  /* ---------- navbar ---------- */
+  const ROLE_NAME = { player: "Player", owner: "Field owner", admin: "Admin" };
+
+  function navItem(href, icon, text) {
+    return '<li><a class="dropdown-item" href="' + url(href) + '"><i class="bi ' + icon + '"></i> ' + text + "</a></li>";
+  }
+
+  // Updates the navbar: bell count, user menu, links for each role, language button
   function refreshNavbar() {
+    const user = currentUser();
+
     const badge = document.getElementById("navBadge");
     if (badge) {
       const n = unreadCount();
@@ -151,12 +284,75 @@ const Malaab = (function () {
       badge.style.display = n > 0 ? "" : "none";
     }
 
+    // Main links: owners/admins get their panel instead of "My Bookings"
+    const links = document.querySelector("#mainNav .navbar-nav");
+    if (links && !document.getElementById("navPanel")) {
+      const myBookings = links.querySelector('a[href$="booking/my-bookings.html"]');
+      if (user && user.role !== "player") {
+        if (myBookings) myBookings.parentElement.classList.add("d-none");
+        const li = document.createElement("li");
+        li.className = "nav-item";
+        li.id = "navPanel";
+        const panelPage = homeFor(user.role);
+        const here = location.pathname.indexOf("/dashboard/") !== -1;
+        li.innerHTML = '<a class="nav-link' + (here ? " active" : "") + '" href="' + url(panelPage) + '">' +
+          (user.role === "owner" ? "Owner panel" : "Admin panel") + "</a>";
+        links.insertBefore(li, links.children[2] || null);
+      }
+    }
+
+    // Language button (once)
+    const icons = document.querySelector(".site-navbar .d-flex.order-lg-last");
+    if (icons && !document.getElementById("langBtn")) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.id = "langBtn";
+      b.className = "nav-icon lang-btn";
+      b.title = lang() === "ar" ? "English" : "العربية";
+      b.textContent = lang() === "ar" ? "EN" : "ع";
+      b.addEventListener("click", function () { setLang(lang() === "ar" ? "en" : "ar"); });
+      icons.insertBefore(b, icons.firstChild);
+    }
+
+    // User menu with logout
     const userLink = document.getElementById("navUser");
-    const user = currentUser();
-    if (userLink && user) {
-      userLink.href = url(user.role === "player" ? "account/profile.html" : homeFor(user.role));
-      userLink.title = user.name + " (" + user.role + ")";
-      userLink.innerHTML = '<i class="bi bi-person-check-fill"></i>';
+    if (userLink && user && !document.getElementById("userMenu")) {
+      const items = [];
+      if (user.role === "player") {
+        items.push(navItem("account/profile.html", "bi-person", "My profile"));
+        items.push(navItem("booking/my-bookings.html", "bi-calendar-check", "My bookings"));
+        items.push(navItem("account/favorites.html", "bi-heart", "Favourites"));
+        items.push(navItem("booking/messages.html", "bi-chat-dots", "Messages"));
+      } else {
+        items.push(navItem(homeFor(user.role), "bi-speedometer2",
+          user.role === "owner" ? "Owner panel" : "Admin panel"));
+        if (user.role === "owner") items.push(navItem("booking/messages.html", "bi-chat-dots", "Messages"));
+        items.push(navItem("account/profile.html", "bi-person", "My profile"));
+      }
+      items.push(navItem("account/notifications.html", "bi-bell", "Notifications"));
+
+      const menu = document.createElement("div");
+      menu.className = "dropdown";
+      menu.id = "userMenu";
+      menu.innerHTML =
+        '<button type="button" class="nav-icon user-btn dropdown-toggle" data-bs-toggle="dropdown" ' +
+          'aria-expanded="false" title="' + escapeHtml(user.name) + '">' +
+          '<i class="bi bi-person-check-fill"></i>' +
+          '<span class="user-name d-none d-xl-inline">' + escapeHtml(user.name.split(" ")[0]) + "</span></button>" +
+        '<ul class="dropdown-menu dropdown-menu-end shadow">' +
+          '<li class="dropdown-header"><strong>' + escapeHtml(user.name) + "</strong><br>" +
+            '<small>' + ROLE_NAME[user.role] + "</small></li>" +
+          '<li><hr class="dropdown-divider"></li>' + items.join("") +
+          '<li><hr class="dropdown-divider"></li>' +
+          '<li><a class="dropdown-item text-danger" href="#" id="logoutLink">' +
+            '<i class="bi bi-box-arrow-right"></i> Logout</a></li>' +
+        "</ul>";
+      userLink.replaceWith(menu);
+      document.getElementById("logoutLink").addEventListener("click", function (e) {
+        e.preventDefault();
+        logout();
+        go("index.html");
+      });
     }
   }
 
@@ -215,7 +411,28 @@ const Malaab = (function () {
     });
   }
 
+  // A missing photo shows the green placeholder instead of a broken image
+  document.addEventListener("error", function (e) {
+    const img = e.target;
+    if (img.tagName !== "IMG" || img.dataset.fallback) return;
+    img.dataset.fallback = "1";
+    img.src = url("assets/images/placeholder.svg");
+  }, true);
+
+  // Small "Photo credits" link in every footer
+  function addCreditsLink() {
+    const line = document.querySelector(".site-footer .text-center.small");
+    if (!line || line.querySelector(".credits-link")) return;
+    const a = document.createElement("a");
+    a.className = "credits-link";
+    a.href = url("account/credits.html");
+    a.textContent = "Photo credits";
+    line.appendChild(document.createTextNode(" · "));
+    line.appendChild(a);
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
+    addCreditsLink();
     refreshNavbar();
     setupReveal();
     setupBallTop();
@@ -224,6 +441,7 @@ const Malaab = (function () {
   return {
     load, save, nextId, url, go,
     currentUser, login, logout, homeFor, requireLogin,
-    showAlert, validate, formatPrice, escapeHtml, isForUser, myNotifications, unreadCount, refreshNavbar
+    showAlert, validate, formatPrice, escapeHtml, isForUser, myNotifications, unreadCount, refreshNavbar,
+    isFavorite, toggleFavorite, favButton, favoriteIds, lang, setLang, freeSlots
   };
 })();
